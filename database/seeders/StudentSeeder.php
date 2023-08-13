@@ -22,10 +22,11 @@ class StudentSeeder extends Seeder
     public function run()
     {
         DB::table('students')->delete();
+
         $students= new Student();
         $students->name='Nawar Shabook';
         $students->email='nawarshabook@gmail.com';
-        $students->birth_day='1999-10-08';
+        $students->birthday='1999-10-08';
         $students->password= Hash::make('12345678');
         $students->gender= 'male';
         $students->college_id=College::all()->unique()->random()->id;
@@ -33,5 +34,17 @@ class StudentSeeder extends Seeder
         $students->section_id=Section::all()->unique()->random()->id;
         $students->academic_year='2022';
         $students->save();
+
+        $students2= new Student();
+        $students2->name='Nawar Shabook22';
+        $students2->email='nawarshabook1@gmail.com';
+        $students2->birthday='1999-10-08';
+        $students2->password= Hash::make('12345678');
+        $students2->gender= 'male';
+        $students2->college_id=College::all()->unique()->random()->id;
+        $students2->classroom_id=Classroom::all()->unique()->random()->id;
+        $students2->section_id=Section::all()->unique()->random()->id;
+        $students2->academic_year='2022';
+        $students2->save();
     }
 }

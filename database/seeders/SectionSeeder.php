@@ -19,16 +19,37 @@ class SectionSeeder extends Seeder
     public function run()
     {
         DB::table('sections')->delete();
-        $sections=[
-           [ 'en'=>'ar','ar'=>'عربي']
+
+        $section1=[
+           [ 'en'=>'informatics','ar'=>'معلوماتية']
         ];
-        foreach($sections as $section){
-            Section::create([
-                'college_id'=>College::all()->random()->id,
-                'classroom_id'=>Classroom::all()->random()->id,
-                'name'=>$section,
-                'status'=>1
-            ]);
-        }
+        $section2=[
+            [ 'en'=>'software','ar'=>'برمجيات']
+         ];
+         $section3=[
+            [ 'en'=>'heart','ar'=>'قلبية']
+         ];
+
+        
+        Section::create([
+            'college_id'=>2,
+            'classroom_id'=>8,
+            'name'=>$section2,
+            'status'=>1
+        ]);
+        Section::create([
+            'college_id'=>4,
+            'classroom_id'=>14,
+            'name'=>$section1,
+            'status'=>1
+        ]);
+        Section::create([
+            'college_id'=>3,
+            'classroom_id'=>10,
+            'name'=>$section3,
+            'status'=>1
+        ]);
+            
     }
+    
 }

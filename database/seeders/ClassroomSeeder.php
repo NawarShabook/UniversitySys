@@ -19,17 +19,21 @@ class ClassroomSeeder extends Seeder
     {
         DB::table('classrooms')->delete();
         $classrooms=[
-            ['en'=>'First group','ar'=>'الفرقة الأولي'],
-            ['en'=>'Second group','ar'=>'الفرقة الثانية'],
-            ['en'=>'Third group','ar'=>'الفرقة الثالثة'],
-            ['en'=>'Fourth group','ar'=>'الفرقة الرابعة'],
+            ['en'=>'First group','ar'=>'السنة الأولى'],
+            ['en'=>'Second group','ar'=>'السنة الثانية'],
+            ['en'=>'Third group','ar'=>'السنة الثالثة'],
+            ['en'=>'Fourth group','ar'=>'السنة الرابعة'],
         ];
 
         foreach($classrooms as $classroom){
-            Classroom::create([
-                'college_id' => College::all()->random()->id,
-                'name'=>$classroom,
-            ]);
+            $colleges=College::pluck('id');
+            foreach($colleges as $college){
+                Classroom::create([
+                    'college_id' => $college,
+                    'name'=>$classroom,
+                ]);
+            }
+            
         }
     }
 }

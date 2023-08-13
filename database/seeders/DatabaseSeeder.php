@@ -35,10 +35,6 @@ class DatabaseSeeder extends Seeder
             CollegeSeeder::class,
             ClassroomSeeder::class,
             SectionSeeder::class,
-            NotionlitieSeeder::class,
-            ReligionSeeder::class,
-            GenderSeeder::class,
-            ParentSeeder::class,
             StudentSeeder::class,
 
         ]);
