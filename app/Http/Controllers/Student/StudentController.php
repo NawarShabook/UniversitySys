@@ -196,6 +196,7 @@ class StudentController extends Controller
         $student=Student::find($request->id)->delete();
         return redirect()->back();
     }
+    
     public function Get_classrooms($id){
 
         $list_classes = Classroom::where("college_id", $id)->pluck("name", "id");

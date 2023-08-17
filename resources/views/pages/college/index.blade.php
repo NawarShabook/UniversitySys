@@ -30,7 +30,7 @@
                         @endforeach
                     </ul>
                 </div>
-            @endif
+                @endif
             <button type="button" class="button x-small" data-toggle="modal" data-target="#exampleModal">
                 {{ __('university.add_fac')}}
             </button>
@@ -50,10 +50,7 @@
                     </thead>
                     <tbody>
                         <?php $i = 0; ?>
-                        @foreach ($colleges as $index=> $college)
-                            @php
-                                $name = $names[$index];
-                            @endphp
+                        @foreach ($colleges as $college)
 
                             <tr>
                                 <?php $i++; ?>

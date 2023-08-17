@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Student;
 
 use App\Models\Student;
 use App\Models\College;
+use App\Models\Classroom;
+use App\Models\Section;
+use App\Models\Graduated;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -16,8 +19,12 @@ class GraduatedController extends Controller
      */
     public function index()
     {
-        $students= Student::onlyTrashed()->get();
-        return view('pages.student.Graduated.index',['students'=>$students]);
+        $graduateds=Graduated::all();
+        
+        foreach ($graduateds as $value) {
+
+        }
+        return view('pages.student.graduated.index',['graduateds'=>$graduateds]);
     }
 
     /**
@@ -25,13 +32,25 @@ class GraduatedController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id=0)
     {
-        $colleges= College::all();
-        $students=Student::all();
-
-        return view('pages.student.Graduated.create',
-        ['colleges'=>$colleges,'students'=>$students]);
+        if($id>0)
+        {
+            $student=Student::where('id',$id)->first();
+            return view('pages.student.graduated.create', [
+                'students'=>Student::all(),
+                'student' => $student,
+                'classrooms'=>Classroom::all(),
+                'sections'=>Section::all(),
+            ]);
+        }
+        else{
+            return view('pages.student.graduated.create', [
+            'students'=>Student::all(),
+            'classrooms'=>Classroom::all(),
+            'sections'=>Section::all(),
+        ]);
+        }
     }
 
     /**
@@ -42,20 +61,32 @@ class GraduatedController extends Controller
      */
     public function store(Request $request)
     {
-        $students= Student::where('college_id', $request->college_id)->where('classroom_id', $request->classroom_id)->where('section_id', $request->section_id)->get();
+        $students= Student::all();
         if($students->count() < 1){
             return redirect()->back()->with('error','لا يوجد بيانات في جدول الطلاب ');
         }
+        try{
+            $request->validate([
+                // 'name' =>['required','max:20',],
+                'student_id'=>['string','required'],
+                'college_id'=>['required'],
+                'classroom_id'=>['required'],
+            ]);
+            
+            Graduated::create([
+                'student_id' => $request->student_id,
+                'college_id'=>$request->college_id,
+                'classroom_id' => $request->classroom_id,
+            ]);
+            $student=Student::where('id',$request->student_id)->first();
+            $student->delete();
+            toastr()->success('success');
 
-        foreach($students as $student){
-            $ids = explode(',',$student->id);
-            Student::whereIn('id',$ids)->Delete();
-
+            return redirect()->route('Graduateds.index');
+        }catch(\Exception $e){
+            toastr()->error($e->getMessage());
+            return redirect()->back()->with('error',$e->getMessage());
         }
-
-        toastr()->success('success');
-
-        return redirect()->route('Graduateds.index');
 
     }
 
@@ -88,9 +119,12 @@ class GraduatedController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
-        Student::onlyTrashed()->where('id', $request->id)->first()->restore();
+        // dd($request);
+        $graduated=Graduated::findOrFail($id);
+        Student::onlyTrashed()->where('id', $graduated->student->id)->first()->restore();
+        $graduated->delete();
         toastr()->success('success back');
         return redirect()->back();
     }
@@ -103,8 +137,8 @@ class GraduatedController extends Controller
      */
     public function destroy(Request $request)
     {
-        Student::onlyTrashed()->where('id', $request->id)->first()->forceDelete();
-        toastr()->error('DELETE');
-        return redirect()->back();
+        $graduated= Graduated::findOrFail($request->id)->delete();
+        toastr()->success('Delete graduated successfully');
+        return redirect()->route('Graduateds.index');
     }
 }

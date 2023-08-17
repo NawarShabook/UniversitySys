@@ -36,11 +36,11 @@ Show Student
                                         <tr>
                                             <th class="alert-info">#</th>
                                             <th class="alert-info">اسم الطالب</th>
-                                            <th class="alert-danger">أسم الكلية السابق</th>
+                                            <th class="alert-danger">اسم الكلية </th>
                                             <th class="alert-danger">السنة الدراسية</th>
                                             <th class="alert-danger">الصف الدراسي السابق</th>
                                             <th class="alert-danger">القسم الدراسي السابق</th>
-                                            <th class="alert-success">أسم الكلية الحالي</th>
+                                    
                                             <th class="alert-success">السنة الدراسية الحالية</th>
                                             <th class="alert-success">الصف الدراسي الحالي</th>
                                             <th class="alert-success">القسم الدراسي الحالي</th>
@@ -51,15 +51,21 @@ Show Student
                                         @foreach($promotions as $promotion)
                                             <tr>
                                                 <td>{{ $loop->index+1 }}</td>
-                                                <td>{{$promotion->students->name}}</td>
-                                                <td>{{$promotion->f_colleges->name}}</td>
+                                                <td>{{$promotion->student->name}}</td>
+                                                <td>{{$promotion->student->college->name}}</td>
                                                 <td>{{$promotion->academic_year}}</td>
-                                                <td>{{$promotion->f_classrooms->name}}</td>
-                                                <td>{{$promotion->f_sections->name}}</td>
-                                                <td>{{$promotion->t_colleges->name}}</td>
+                                                <td>{{$promotion->f_classroom->name}}</td>
+                                                <td>
+                                                    @if (isset($promotion->f_section))
+                                                        {{$promotion->f_section->name}}
+                                                    @else
+                                                        _____
+                                                    @endif
+                                                    
+                                                </td>
                                                 <td>{{$promotion->academic_year_new}}</td>
-                                                <td>{{$promotion->t_classrooms->name}}</td>
-                                                <td>{{$promotion->t_sections->name}}</td>
+                                                <td>{{$promotion->t_classroom->name}}</td>
+                                                <td>{{$promotion->t_section->name}}</td>
                                                 <td>
 
                                                     <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#Delete_one{{$promotion->id}}">ارجاع الطالب</button>

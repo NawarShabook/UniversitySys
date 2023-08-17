@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->integer('status');
             $table->foreignId('college_id')->references('id')->on('colleges')->onDelete('cascade');
-            $table->foreignId('classroom_id')->references('id')->on('classrooms')->onDelete('cascade')->nullable();
+            $table->foreignId('classroom_id')->references('id')->on('classrooms')->onDelete('cascade');
             $table->timestamps();
         });
     }

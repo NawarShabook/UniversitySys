@@ -63,7 +63,7 @@
                                         @enderror
                                     </div>
                                     <div class="col">
-                                        <label for="title">{{__('general.name_ar')}}</label>
+                                        <label for="title">{{__('general.name_en')}}</label>
                                         <input type="text" name="name_en" class="form-control" required>
                                         @error('name_en')
                                         <div class="alert alert-danger">{{ $message }}</div>

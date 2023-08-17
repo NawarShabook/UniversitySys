@@ -75,6 +75,7 @@
                     type: "GET",
                     dataType: "json",
                     success: function (data) {
+                        console.log(data)
                         $('select[name="classroom_id"]').empty();
                         $('select[name="classroom_id"]').append('<option selected disabled >اختر المرحلة...</option>');
                         $.each(data, function (key, value) {
@@ -130,12 +131,13 @@
             var college_id = $(this).val();
             if (college_id) {
                 $.ajax({
-                    url: "{{ URL::to(Illuminate\Support\Facades\App::getLocale().'/Get_Sections') }}/" + college_id,
+                    url: "{{ URL::to(Illuminate\Support\Facades\App::getLocale().'/Get_Classrooms') }}/" + college_id,
                     type: "GET",
                     dataType: "json",
                     success: function (data) {
                         $('select[name="classroom_id_new"]').empty();
                         $('select[name="classroom_id_new"]').append('<option selected disabled >اختر المرحلة الدراسية...</option>');
+                        console.log(data);
                         $.each(data, function (key, value) {
                             $('select[name="classroom_id_new"]').append('<option value="' + key + '">' + value + '</option>');
                         });
@@ -157,8 +159,9 @@
         $('select[name="classroom_id_new"]').on('change', function () {
             var classroom_id = $(this).val();
             if (classroom_id) {
+                console.log("asdasd");
                 $.ajax({
-                    url: "{{ URL::to('Get_Sections') }}/" + classroom_id,
+                    url: "{{ URL::to(Illuminate\Support\Facades\App::getLocale().'/Get_Sections') }}/" + classroom_id,
                     type: "GET",
                     dataType: "json",
                     success: function (data) {
@@ -177,3 +180,36 @@
         });
     });
 </script>
+
+{{-- hidden select fo colllege for promotion create --}}
+{{-- <script>
+    
+    $(document).ready(function () {
+        $('select[name="student_id"]').on('change', function () {
+            
+            var student_id = $(this).val();
+            if (student_id) {
+                
+                $.ajax({
+                    url: "{{ URL::to(Illuminate\Support\Facades\App::getLocale().'/Get_College') }}/" + student_id,
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        
+                        $('select[name="college_id"]').empty();
+                        console.log(data)
+                        $.each(data, function (key, value) {
+                            
+                            $('select[name="college_id"]').append('<option value="' + key + '">' + value + '</option>');
+                        });
+
+                    },
+                });
+            }
+
+            else {
+                console.log('AJAX load did not work');
+            }
+        });
+    });
+</script> --}}

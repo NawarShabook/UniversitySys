@@ -14,6 +14,7 @@
 @endsection
 @section('content')
     <!-- row -->
+
     <div class="row">
         <div class="col-md-12 mb-30">
             <div class="card card-statistics h-100">
@@ -36,31 +37,29 @@
                                             <th>college</th>
                                             <th>classroom</th>
                                             <th>Section</th>
-                                            <th>notionlities</th>
                                             <th>سنة التخرج</th>
                                             <th>Processes</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        @foreach($students as $student)
+                                        @foreach($graduateds as $graduated)
                                             <tr>
                                             <td>{{ $loop->index+1 }}</td>
-                                            <td>{{$student->name}}</td>
-                                            <td>{{$student->email}}</td>
-                                            <td>{{$student->genders->name}}</td>
-                                            <td>{{$student->colleges->name}}</td>
-                                            <td>{{$student->classrooms->name}}</td>
-                                            <td>{{$student->sections->name}}</td>
-                                            <td>{{$student->notionlities->name}}</td>
-                                            <td>{{$student->academic_year}}</td>
+                                            <td>{{$graduated->student->name}}</td>
+                                            <td>{{$graduated->student->email}}</td>
+                                            <td>{{$graduated->student->gender}}</td>
+                                            <td>{{$graduated->student->college->name}}</td>
+                                            <td>{{$graduated->student->classroom->name}}</td>
+                                            <td>{{$graduated->student->section->name}}</td>
+                                            <td>{{$graduated->student->academic_year}}</td>
                                                 <td>
-                                                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#Return_Student{{ $student->id }}" title="Delete">ارجاع الطالب</button>
-                                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#Delete_Student{{ $student->id }}" title="Delete">حذف الطالب</button>
+                                                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#Return_Student{{ $graduated->id }}" title="Delete">ارجاع الطالب</button>
+                                                    {{-- <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#Delete_Student{{ $student->id }}" title="Delete">حذف الطالب</button> --}}
 
                                                 </td>
                                             </tr>
-                                        @include('pages.student.Graduated.return')
-                                        @include('pages.student.Graduated.Delete')
+                                       @include('pages.student.Graduated.return')
+                                        {{-- @include('pages.student.Graduated.Delete') --}} 
                                         @endforeach
                                     </table>
                                 </div>

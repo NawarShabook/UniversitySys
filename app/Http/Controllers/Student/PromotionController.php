@@ -20,8 +20,11 @@ class PromotionController extends Controller
      */
     public function index()
     {
-
-        return view('pages.student.promotion.index', ['promotions' => Promotion::all()]);
+        $promotions=Promotion::all();
+    
+        return view('pages.student.promotion.index', [
+            'promotions' => Promotion::all(),
+        ]);
     }
 
     /**
@@ -29,12 +32,27 @@ class PromotionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id=0)
     {
-        return view('pages.student.promotion.create', [
-        'colleges'=>College::all(),'promotions' => Promotion::all(),'students'=>Student::all(),
-    ]);
-
+        if($id>0)
+        {
+            $student=Student::where('id',$id)->first();
+            return view('pages.student.promotion.create', [
+                'promotions' => Promotion::all(),
+                'students'=>Student::all(),
+                'student' => $student,
+                'classrooms'=>Classroom::all(),
+                'sections'=>Section::all(),
+            ]);
+        }
+        else{
+            return view('pages.student.promotion.create', [
+            'promotions' => Promotion::all(),
+            'students'=>Student::all(),
+            'classrooms'=>Classroom::all(),
+            'sections'=>Section::all(),
+        ]);
+        }
     }
 
     /**
@@ -47,24 +65,17 @@ class PromotionController extends Controller
     {
 
         DB::beginTransaction();
-try {
-    $students = Student::where('college_id', $request->college_id)->where('classroom_id', $request->classroom_id)->where('section_id', $request->section_id)->where('academic_year', $request->academic_year)->get();
-    if ($students->count() < 1) {
-        return redirect()->back()->with('error_promotions', __('لاتوجد بيانات في جدول الطلاب'));
-    }
-
-    foreach ($students as $student) {
-
-        $ids = explode(',', $student->id);
-        Student::whereIn('id', $ids)
+        try {
+            
+        
+        Student::where('id', $request->student_id)->first()
             ->update([
-                'college_id'=>$request->college_id_new,
                 'classroom_id'=>$request->classroom_id_new,
                 'section_id'=>$request->section_id_new,
                 'academic_year'=>$request->academic_year_new,
             ]);
 
-
+            // dd($request);
         Promotion::updateOrCreate([
             'student_id'=>$request->student_id,
             'from_college_id'=>$request->college_id,
@@ -76,16 +87,18 @@ try {
             'academic_year'=>$request->academic_year,
             'academic_year_new'=>$request->academic_year_new,
         ]);
-    }
-    DB::commit();
-    toastr()->success('success');
+        
+        DB::commit();
+        toastr()->success('success');
 
-    return redirect()->route('promotion.index');
-}catch(\Exception $e){
-    DB::rollback();
-            return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        return redirect()->route('promotion.index');
+        }catch(\Exception $e){
+            DB::rollback();
+            toastr()->error($e->getMessage());
+            return redirect()->back()->with('error_promotions', $e->getMessage());
+            // return redirect()->back()->withErrors(['error' ]);
 
-}
+        }
 
     }
 
@@ -145,7 +158,6 @@ try {
                 $ids = explode(',',$promotion->student_id);
                 Student::whereIn('id', $ids)
                 ->update([
-                'college_id'=>$promotion->from_college_id,
                 'classroom_id'=>$promotion->from_classroom_id,
                 'section_id'=> $promotion->from_section_id,
                 'academic_year'=>$promotion->academic_year,
@@ -166,7 +178,6 @@ try {
                 $promotion = Promotion::findorfail($request->id);
                 Student::where('id', $promotion->student_id)
                     ->update([
-                        'college_id'=>$promotion->from_college_id,
                         'classroom_id'=>$promotion->from_classroom_id,
                         'section_id'=> $promotion->from_section_id,
                         'academic_year'=>$promotion->academic_year,

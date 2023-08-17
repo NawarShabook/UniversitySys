@@ -34,34 +34,58 @@
                         <div class="form-row">
                             <div class="form-group col">
                                 <label for="inputState">اسم الطالب </label>
-                                <select class="custom-select mr-sm-2" name="student_id" required>
-                                    <option selected disabled>أختر اسم الطالب ...</option>
-                                    @foreach($students as $student)
-                                        <option value="{{$student->id}}">{{$student->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                                <select class="custom-select mr-sm-2" id="student_id" name="student_id" required>
+                                    <option selected disabled>اختر اسم الطالب ...</option>
+                                    @if (isset($student))
+                                        <option class="text-warning font-weight-bold" selected value="{{$student->id}}">{{$student->name}}</option>
+                                    @endif
+                                    @foreach($students as $stu)
+                                        @if (isset($student)&&($student->id!=$stu->id))
+                                            <option value="{{$stu->id}}">{{$stu->name}}</option> 
+                                        
+                                        @elseif(!isset($student))
+                                            <option value="{{$stu->id}}">{{$stu->name}}</option> 
+                                        @endif
 
-                            <div class="form-group col">
-                                <label for="inputState">اسم الكلية </label>
-                                <select class="custom-select mr-sm-2" name="college_id" required>
-                                    <option selected disabled>اختر اسم الكلية ......</option>
+                                    @endforeach
                                     
                                 </select>
+                                
                             </div>
+
                             <div class="form-group col">
-                                <label for="classroom_id">classrooms: <span
+                                <label for="Classroom_id"> {{__('general.college')}}: <span
+                                        class="text-danger">*</span></label>
+                                <select class="custom-select mr-sm-2" name="college_id" required>
+                                
+                                    @if (isset($student))
+                                    <option class="text-danger font-weight-bold"  selected value="{{$student->college->id}}">{{$student->college->name}}</option>
+                                    @endif
+                                </select>
+                            </div>
+                            
+                            <div class="form-group col">
+                                <label for="Classroom_id"> {{__('general.level')}}:<span
                                         class="text-danger">*</span></label>
                                 <select class="custom-select mr-sm-2" name="classroom_id" required>
-
+                                    @if (isset($student))
+                                    <option class="text-danger font-weight-bold" selected value="{{$student->classroom->id}}">{{$student->classroom->name}}</option>
+                                    @endif
                                 </select>
                             </div>
-
+                            
                             <div class="form-group col">
-                                <label for="section_id">sections : </label>
-                                <select class="custom-select mr-sm-2" name="section_id" required>
+                                <label for="section_id">{{__('general.section')}}:</label>
+                                <select class="custom-select mr-sm-2" name="section_id">
+                                    @if (isset($student->secion))
+                                    <option class="text-danger font-weight-bold" selected value="{{$student->section}}">{{$student->section->name}}</option>
+                                    
+                                    @else
+                                    <option class="text-danger font-weight-bold" selected value="">____</option>
 
+                                    @endif
                                 </select>
+                                
                             </div>
 
                         </div>
@@ -81,5 +105,13 @@
     @toastr_js
     @toastr_render
 
-
+<script>
+        document.getElementById('student_id').addEventListener('change', function() {
+            var selectedStudentId = this.value;
+            
+            if (selectedStudentId) {
+                window.location.href = '/Graduateds/create/' + selectedStudentId;
+            }
+        });
+</script>
 @endsection

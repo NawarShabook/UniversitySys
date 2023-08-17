@@ -101,7 +101,7 @@
                                 </div>
                                 <div class="form-group col">
                                     <label for="inputCity">{{__('general.section')}}</label>
-                                    <select  class="custom-select my-1 mr-sm-2" name="section_id" required>
+                                    <select  class="custom-select my-1 mr-sm-2" name="section_id">
                                         <option value="" selected >اختر  قسم الكلية</option>
                                         
                                     </select>

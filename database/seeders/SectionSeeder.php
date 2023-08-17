@@ -21,13 +21,16 @@ class SectionSeeder extends Seeder
         DB::table('sections')->delete();
 
         $section1=[
-           [ 'en'=>'informatics','ar'=>'معلوماتية']
+            'en'=>'informatics','ar'=>'معلوماتية'
         ];
         $section2=[
-            [ 'en'=>'software','ar'=>'برمجيات']
+             'en'=>'software','ar'=>'برمجيات'
          ];
          $section3=[
-            [ 'en'=>'heart','ar'=>'قلبية']
+             'en'=>'heart','ar'=>'قلبية'
+         ];
+         $section4=[
+            'en'=>'software','ar'=>'برمجيات'
          ];
 
         
@@ -47,6 +50,13 @@ class SectionSeeder extends Seeder
             'college_id'=>3,
             'classroom_id'=>10,
             'name'=>$section3,
+            'status'=>1
+        ]);
+
+        Section::create([
+            'college_id'=>4,
+            'classroom_id'=>25,
+            'name'=>$section4,
             'status'=>1
         ]);
             

@@ -64,6 +64,8 @@ Show Student
                                             <td>
                                                 @if ($student->section)
                                                 {{$student->section->name}}
+                                                @else
+                                                ______
                                                 @endif
                                                 
                                             </td>

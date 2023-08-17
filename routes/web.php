@@ -73,16 +73,19 @@ Route::group(
     Route::post('Upload_attachment', [StudentController::class ,'Upload_attachment'])->name('Upload_attachment');
     Route::post('Delete_attachment', [StudentController::class ,'Delete_attachment'])->name('Delete_attachment');
     Route::get('Download_attachment/{studentname}/{filename}',[StudentController::class ,'Download_attachment'])->name('Download_attachment');
+    
     Route::resource('/Graduateds',GraduatedController::class);
-
+    Route::get('/Graduateds/create/{id}', [GraduatedController::class,'create']);
 
 
     Route::get('/Get_classrooms/{id}', [AjaxController::class,'getClassrooms'])->name('Get_classrooms');
     Route::get('/Get_Sections/{id}', [AjaxController::class,'Get_Sections'])->name('Get_Sections');
+    Route::get('/Get_College/{id}', [AjaxController::class,'Get_College'])->name('Get_College');
 
 
     // Promotion Student
         Route::resource('/promotion', PromotionController::class);
+        Route::get('/promotion/create/{id}', [PromotionController::class,'create']);
 });
 
 require __DIR__.'/auth.php';

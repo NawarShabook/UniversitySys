@@ -14,31 +14,27 @@ class Promotion extends Model
     use HasFactory;
     protected $guarded =[];
 
-    public function students(){
+    public function student(){
         return $this->belongsTo(Student::class,'student_id');
     }
-    public function f_colleges(){
-        return $this->belongsTo(College::class,'from_college_id');
-     }
 
-     public function f_classrooms(){
+
+     
+     public function f_classroom(){
          return $this->belongsTo(Classroom::class,'from_classroom_id');
 
      }
 
-     public function f_sections(){
+     public function f_section(){
          return $this->belongsTo(Section::class,'from_section_id');
      }
-    public function t_colleges(){
-        return $this->belongsTo(College::class,'to_college_id');
-     }
 
-     public function t_classrooms(){
+     public function t_classroom(){
          return $this->belongsTo(Classroom::class,'to_classroom_id');
 
      }
 
-     public function t_sections(){
+     public function t_section(){
          return $this->belongsTo(Section::class,'to_section_id');
      }
 }
