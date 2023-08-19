@@ -10,6 +10,7 @@ use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\Student\GraduatedController;
 use App\Http\Controllers\Student\PromotionController;
+use App\Http\Controllers\SubjectController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 use App\Models\College;
@@ -77,15 +78,19 @@ Route::group(
     Route::resource('/Graduateds',GraduatedController::class);
     Route::get('/Graduateds/create/{id}', [GraduatedController::class,'create']);
 
-
+    // ajax routes
     Route::get('/Get_classrooms/{id}', [AjaxController::class,'getClassrooms'])->name('Get_classrooms');
     Route::get('/Get_Sections/{id}', [AjaxController::class,'Get_Sections'])->name('Get_Sections');
     Route::get('/Get_College/{id}', [AjaxController::class,'Get_College'])->name('Get_College');
+    Route::get('/Get_Teachers/{id}', [AjaxController::class,'Get_Teachers'])->name('Get_Teachers');
 
 
     // Promotion Student
         Route::resource('/promotion', PromotionController::class);
         Route::get('/promotion/create/{id}', [PromotionController::class,'create']);
+
+    //subject
+    Route::resource('/subject',SubjectController::class);
 });
 
 require __DIR__.'/auth.php';

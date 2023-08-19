@@ -5,13 +5,11 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Database\Seeders\UserSeeder;
-use Database\Seeders\GenderSeeder;
-use Database\Seeders\ParentSeeder;
 use Database\Seeders\SectionSeeder;
 use Database\Seeders\StudentSeeder;
 use Database\Seeders\CollegeSeeder;
-use Database\Seeders\ReligionSeeder;
 use Database\Seeders\ClassroomSeeder;
+use Database\Seeders\TeacherSeeder;
 use Database\Seeders\NotionlitieSeeder;
 
 class DatabaseSeeder extends Seeder
@@ -36,6 +34,7 @@ class DatabaseSeeder extends Seeder
             ClassroomSeeder::class,
             SectionSeeder::class,
             StudentSeeder::class,
+            TeacherSeeder::class,
 
         ]);
     }

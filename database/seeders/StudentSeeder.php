@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Gender;
+
 use App\Models\Section;
 use App\Models\Student;
 use App\Models\College;

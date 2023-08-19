@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\College;
 use App\Models\Classroom;
 use App\Models\Student;
+use App\Models\Teacher;
 use App\Models\Section;
 use Illuminate\Http\Request;
 
@@ -39,5 +40,12 @@ class AjaxController extends Controller
         // $sections = Classroom::where("id", $id)->first()->sections()->pluck("name", "id");
         // return $sections;
 
+    }
+
+    //Get Teachers
+    public function Get_Teachers($id){
+
+        $teachers= Teacher::where("college_id",$id)->pluck("name", "id");
+        return $teachers;
     }
 }

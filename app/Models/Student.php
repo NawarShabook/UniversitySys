@@ -40,6 +40,10 @@ class Student extends Model
          return $this->belongsTo(Section::class,'section_id');
      }
    
+     public function subjects(){
+        return $this->belongsToMany(Subject::class);
+    }
+
     //  public function images()
     //  {
     //      return $this->morphMany(Image::class, 'imageable');

@@ -181,6 +181,36 @@
     });
 </script>
 
+<script>
+    $(document).ready(function () {
+        $('select[name="college_id"]').on('change', function () {
+            var college_id = $(this).val();
+            if (college_id) {
+                
+                $.ajax({
+                    
+                    url: "{{ URL::to(Illuminate\Support\Facades\App::getLocale().'/Get_Teachers') }}/" + college_id,
+                    type: "GET",
+                    dataType: "json",
+                    success: function (data) {
+                        
+                        $('select[name="teacher_id"]').empty();
+                        $.each(data, function (key, value) {
+                            console.log('googogoo');
+                            $('select[name="teacher_id"]').append('<option value="' + key + '">' + value + '</option>');
+                        });
+
+                    },
+                });
+            }
+
+            else {
+                console.log('AJAX load did not work');
+            }
+        });
+    });
+</script>
+
 {{-- hidden select fo colllege for promotion create --}}
 {{-- <script>
     

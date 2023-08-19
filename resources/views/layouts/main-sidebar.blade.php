@@ -13,11 +13,8 @@
                             <div class="clearfix"></div>
                         </a>
                         <ul id="dashboard" class="collapse" data-parent="#sidebarnav">
-                            <li> <a href="index.html">Dashboard 01</a> </li>
-                            <li> <a href="index-02.html">Dashboard 02</a> </li>
-                            <li> <a href="index-03.html">Dashboard 03</a> </li>
-                            <li> <a href="index-04.html">Dashboard 04</a> </li>
-                            <li> <a href="index-05.html">Dashboard 05</a> </li>
+                            <li> <a href="{{route('dashboard')}}">Dashboard 01</a> </li>
+
                         </ul>
                     </li>
                     <!--college -->
@@ -63,18 +60,7 @@
                         <li><a href="{{ route('sections.index') }}">{{ __('section.section') }}</a></li>
                     </ul>
                 </li>
-                {{-- <!--my parent-->
-                <li>
-                    <a href="javascript:void(0);" data-toggle="collapse" data-target="#Parents-menu">
-                        <div class="pull-left"><i class="fa fa-building"></i><span
-                                class="right-nav-text">{{ __('Parent_trans.add_parent') }}</span></div>
-                        <div class="pull-right"><i class="ti-plus"></i></div>
-                        <div class="clearfix"></div>
-                    </a>
-                    <ul id="Parents-menu" class="collapse" data-parent="#sidebarnav">
-                        <li><a href="{{ url('my-parent') }}">{{ __('Parent_trans.add_parent') }}</a></li>
-                    </ul>
-                </li> --}}
+                
 
                 <!-- Teacher-->
                 <li>
@@ -120,6 +106,19 @@
                                     <li> <a href="{{ route('Graduateds.index') }}">list_Graduate</a> </li>
                                 </ul>
                             </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a href="javascript:void(0);" data-toggle="collapse" data-target="#Subject-menu">
+                            <div class="pull-left"><i class="fa fa-building"></i><span
+                                    class="right-nav-text">{{__('subject.subjects')}}</span></div>
+                            <div class="pull-right"><i class="ti-plus"></i></div>
+                            <div class="clearfix"></div>
+                        </a>
+                        <ul id="Subject-menu" class="collapse" data-parent="#sidebarnav">
+                            <li><a href="{{ route('subject.create') }}">{{__('general.add').' '.__('subject.subject')}}</a></li>
+                            <li><a href="{{ route('subject.index') }}">{{__('general.show').' '.__('subject.subjects')}}</a></li>
                         </ul>
                     </li>
 

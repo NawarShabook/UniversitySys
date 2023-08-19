@@ -18,6 +18,7 @@ return[
     'level' => 'Studing Level',
     'section' => 'Section',
     'student' => 'Student',
+    'teacher' => 'Teacher',
     'gender' => 'Gender',
     'male' => 'Male',
     'female' => 'Female',

@@ -134,8 +134,7 @@ class StudentController extends Controller
         $student=Student::find($id);
         return view('pages.student.edit',['student' => $student,
         'colleges'=>College::all(),
-        'classrooms'=>Classroom::all(),
-        'sections'=>Section::all(),
+
     ]);
     }
 
@@ -157,7 +156,7 @@ class StudentController extends Controller
                 'gender'=>['required'],
                 'college_id'=>['required'],
                 'classroom_id'=>['required'],
-                // 'section_id'=>['required'],
+                'section_id'=>['required'],
                 'academic_year'=>['required'],
     
             ]);
