@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('academic_year');
             $table->foreignId('college_id')->references('id')->on('colleges')->onDelete('cascade');
             $table->foreignId('classroom_id')->references('id')->on('classrooms')->onDelete('cascade');
-            $table->foreignId('section_id')->nullable()->references('id')->on('sections')->onDelete('cascade');
+            $table->foreignId('section_id')->references('id')->on('sections')->onDelete('cascade');
             $table->softDeletes();
             $table->timestamps();
         });

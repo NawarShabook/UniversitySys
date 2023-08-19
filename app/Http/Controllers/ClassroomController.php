@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\College;
 use App\Models\Classroom;
+use App\Models\Section;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreClassroom;
 
@@ -55,12 +56,16 @@ class ClassroomController extends Controller
                 'name' =>'required',
                 'name_en' =>'required'
             ]);
-            Classroom::create([
+            $newClassroom = Classroom::create([
                 'name' => ['en'=>$request->name_en , 'ar'=>$request->name],
                 'college_id'=>$request->college_id,
             ]);
 
-
+            Section::create([
+                'name' => ['en'=>'general' , 'ar'=>'عام'],
+                'college_id'=>$request->college_id,
+                'classroom_id'=>$newClassroom->id,
+            ]);
 
 
             // $validated = $request->validated();

@@ -120,7 +120,7 @@ class StudentController extends Controller
     {
         $student=Student::findOrfail($id);
 
-        return view('pages.student.show',['student'=>$student, 'name'=> $name]);
+        return view('pages.student.show',['student'=>$student]);
     }
 
     /**

@@ -38,10 +38,10 @@ Show Student
                                     <table class="table table-striped table-hover" style="text-align:center">
                                         <tbody>
                                         <tr>
-                                            <th scope="row">{{ __('student.name_student') }}</th>
-                                            <td>{{ $student->name }}</td>
-                                            <th>{{ __('student.name_student_an') }}</th>
-                                            <td>{{ $name }}</td>
+                                            <th scope="row">{{ __('student.name_student_ar') }}</th>
+                                            <td>{{$student->getTranslation('name','ar')}}</td>
+                                            <th>{{ __('student.name_student_en') }}</th>
+                                            <td>{{$student->getTranslation('name','en')}}</td>
                                             <th></th>
                                             <td></td>
                                         </tr>
@@ -61,8 +61,10 @@ Show Student
                                             <td>
                                                 @if ($student->section)
                                                     {{$student->section->name}}
-                                                @endif
+                                                @else
                                                 ____
+                                                @endif
+                                               
                                             </td>
                                         </tr>
 

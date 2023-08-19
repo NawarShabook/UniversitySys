@@ -56,10 +56,20 @@ class SectionSeeder extends Seeder
         Section::create([
             'college_id'=>4,
             'classroom_id'=>25,
-            'name'=>$section4,
+            'name'=>['en'=>'informatics','ar'=>'معلوماتية'],
             'status'=>1
         ]);
-            
+
+        $classrooms= Classroom::all();
+        foreach ($classrooms as $classroom) {
+            Section::create([
+                'college_id'=>$classroom->college_id,
+                'classroom_id'=>$classroom->id,
+                'name'=>['en'=>'general','ar'=>'عام'],
+                'status'=>1
+            ]);
+        }
+
     }
     
 }

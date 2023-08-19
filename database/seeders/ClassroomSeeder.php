@@ -8,6 +8,8 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+
+
 class ClassroomSeeder extends Seeder
 {
     /**
@@ -28,6 +30,7 @@ class ClassroomSeeder extends Seeder
         foreach($classrooms as $classroom){
             $colleges=College::pluck('id');
             foreach($colleges as $college){
+
                 Classroom::create([
                     'college_id' => $college,
                     'name'=>$classroom,

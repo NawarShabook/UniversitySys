@@ -54,12 +54,12 @@
                                             <td>{{$graduated->student->academic_year}}</td>
                                                 <td>
                                                     <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#Return_Student{{ $graduated->id }}" title="Delete">ارجاع الطالب</button>
-                                                    {{-- <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#Delete_Student{{ $student->id }}" title="Delete">حذف الطالب</button> --}}
+                                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#Delete_Student{{ $graduated->id }}" title="Delete">حذف السجل</button>
 
                                                 </td>
                                             </tr>
                                        @include('pages.student.Graduated.return')
-                                        {{-- @include('pages.student.Graduated.Delete') --}} 
+                                        @include('pages.student.Graduated.Delete') 
                                         @endforeach
                                     </table>
                                 </div>
