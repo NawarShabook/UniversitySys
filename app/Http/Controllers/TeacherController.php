@@ -5,12 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\College;
 use App\Models\Section;
 use App\Models\Teacher;
+use App\Models\User;
 use App\Models\Classroom;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class TeacherController extends Controller
 {
+    public function __construct()
+    {
+        // $this->middleware('role:admin')->only(['method1', 'method2']); // Apply to method1 and method2
+        $this->middleware('role:admin')->except(['index']); // Apply to other methods except method1 and method2
+    }
     /**
      * Display a listing of the resource.
      *
@@ -34,9 +40,18 @@ class TeacherController extends Controller
      */
     public function create()
     {
+        // return view('pages.teacher.create',[  
+        // 'colleges'=>College::all(),
+        // ]);
+    }
+
+    public function create_teacher_user($user_id)
+    {
+        $user=User::where('id', $user_id)->first();
         return view('pages.teacher.create',[  
+        'user'=>$user,
         'colleges'=>College::all(),
-    ]);
+        ]);
     }
 
     /**
@@ -49,9 +64,9 @@ class TeacherController extends Controller
     {
         try{
             $request->validate([
+                'user_id' =>['required'],
                 'name' =>['string','required','max:20',],
                 'email'=>['string','required','email','max:255', 'unique:teachers'],
-                'password' =>['string','required','min:8'],
                 'gender' =>['string','required'],
                 'birthday' =>['date','required'],
                 'college_id'=>['required'],
@@ -60,9 +75,9 @@ class TeacherController extends Controller
             ]);
 
             Teacher::create([
+                'user_id' => $request->user_id,
                 'name' => ['en'=>$request->name_en , 'ar'=>$request->name],
                 'email'=>$request->email,
-                'password' => Hash::make($request->password),
                 'gender'=>$request->gender,
                 'birthday'=>$request->birthday,
                 'college_id'=>$request->college_id,

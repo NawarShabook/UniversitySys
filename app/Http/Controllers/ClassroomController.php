@@ -10,6 +10,11 @@ use App\Http\Requests\StoreClassroom;
 
 class ClassroomController extends Controller
 {
+    public function __construct()
+    {
+        // $this->middleware('role:admin')->only(['method1', 'method2']); // Apply to method1 and method2
+        $this->middleware('role:admin')->except(['index']); // Apply to other methods except method1 and method2
+    }
     /**
      * Display a listing of the resource.
      *
@@ -44,20 +49,13 @@ class ClassroomController extends Controller
         $List_Classes = $request->List_Classes;
 
         try {
-            $cn_ar=Classroom::where('name->'.'ar', $request->name)->where('college_id',$request->college_id)->first();
-            $cn_en=Classroom::where('name->'.'en', $request->name_en)->where('college_id',$request->college_id)->first();
-            if($cn_ar || $cn_en)
-            {
-                toastr()->error('dublicate Classroom');
-                return redirect()->route('classroom.index');
-            }
-
+          
             $this->validate($request,[
-                'name' =>'required',
-                'name_en' =>'required'
+                'name' =>['required','in:"1","2","3","4","5","6"'],
+                'college_id' =>'required'
             ]);
             $newClassroom = Classroom::create([
-                'name' => ['en'=>$request->name_en , 'ar'=>$request->name],
+                'name' => $request->name,
                 'college_id'=>$request->college_id,
             ]);
 

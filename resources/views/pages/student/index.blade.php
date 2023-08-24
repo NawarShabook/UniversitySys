@@ -24,8 +24,7 @@ Show Student
                     <div class="col-xl-12 mb-30">
                         <div class="card card-statistics h-100">
                             <div class="card-body">
-                                <a href="{{route('student.create')}}" class="btn btn-success btn-sm" role="button"
-                                   aria-pressed="true">Add student</a><br><br>
+                               
                                 <div class="table-responsive">
                                     <table id="datatable" class="table  table-hover table-sm table-bordered p-0"
                                            data-page-length="50"
@@ -41,7 +40,7 @@ Show Student
                                             <th>{{ __('general.level') }}</th>
                                             <th>{{ __('general.section') }}</th>
                                             <th>{{ __('general.gender') }}</th>
-                                            <th>{{ __('general.actions') }}</th>
+                                            @role('admin') <th>{{ __('general.actions') }}</th> @endrole
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -62,20 +61,17 @@ Show Student
                                             <td>{{$student->college->name}}</td>
                                             <td>{{$student->classroom->name}}</td>
                                             <td>
-                                                @if ($student->section)
                                                 {{$student->section->name}}
-                                                @else
-                                                ______
-                                                @endif
-                                                
                                             </td>
                                             <td>{{__('general.'.$student->gender)}}</td>
-                                            
+                                            @role('admin')
                                                 <td>
+                                                    
                                                     <a href="{{route('student.edit',$student->id)}}" class="btn btn-info btn-sm" role="button" aria-pressed="true" title="Edit"><i class="fa fa-edit"></i></a>
                                                     <a href="{{route('student.show',$student->id)}}" class="btn btn-success btn-sm" role="button" aria-pressed="true" title="Show"><i class="fa fa-regular fa-eye-slash"></i></a>
                                                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete_student{{ $student->id }}" title="Delete"><i class="fa fa-trash"></i></button>
                                                 </td>
+                                            @endrole
                                             </tr>
 
                                             <div class="modal fade" id="delete_student{{$student->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

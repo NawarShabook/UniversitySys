@@ -20,12 +20,7 @@ class ClassroomSeeder extends Seeder
     public function run()
     {
         DB::table('classrooms')->delete();
-        $classrooms=[
-            ['en'=>'First group','ar'=>'السنة الأولى'],
-            ['en'=>'Second group','ar'=>'السنة الثانية'],
-            ['en'=>'Third group','ar'=>'السنة الثالثة'],
-            ['en'=>'Fourth group','ar'=>'السنة الرابعة'],
-        ];
+        $classrooms=["1","2","3","4"];
 
         foreach($classrooms as $classroom){
             $colleges=College::pluck('id');

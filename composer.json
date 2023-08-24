@@ -12,6 +12,7 @@
         "laravel/tinker": "^2.7",
         "livewire/livewire": "^2.10",
         "mcamara/laravel-localization": "^1.7",
+        "spatie/laravel-permission": "^5.10",
         "spatie/laravel-translatable": "^6.0",
         "yoeunes/toastr": "^2.0"
     },

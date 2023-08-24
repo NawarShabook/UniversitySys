@@ -25,31 +25,31 @@ class TeacherSeeder extends Seeder
         $teacher->name=['ar'=> 'جاهد باشا', 'en'=>'jahed basha'];
         $teacher->email='jahedbasha@gmail.com';
         $teacher->birthday='1988-10-08';
-        $teacher->password= Hash::make('12345678');
+        $teacher->user_id=2;
         $teacher->gender= 'male';
         $teacher->college_id=2;
         $teacher->level='doctor';
         $teacher->save();
 
 
-        $teacher= new Teacher();
-        $teacher->name=['ar'=> 'وضاح عابد', 'en'=>'waddahabed'];
-        $teacher->email='waddahabed@gmail.com';
-        $teacher->birthday='1977-10-08';
-        $teacher->password= Hash::make('12345678');
-        $teacher->gender= 'male';
-        $teacher->college_id=4;
-        $teacher->level='master';
-        $teacher->save();
+        // $teacher= new Teacher();
+        // $teacher->name=['ar'=> 'وضاح عابد', 'en'=>'waddahabed'];
+        // $teacher->email='waddahabed@gmail.com';
+        // $teacher->birthday='1977-10-08';
+        // $teacher->password= Hash::make('12345678');
+        // $teacher->gender= 'male';
+        // $teacher->college_id=4;
+        // $teacher->level='master';
+        // $teacher->save();
 
-        $teacher= new Teacher();
-        $teacher->name=['ar'=> 'عبد الحليم مصطفى', 'en'=>'abdulhalim mostafa'];
-        $teacher->email='abdulmos@gmail.com';
-        $teacher->birthday='1978-10-08';
-        $teacher->password= Hash::make('12345678');
-        $teacher->gender= 'male';
-        $teacher->college_id=4;
-        $teacher->level='master';
-        $teacher->save();
+        // $teacher= new Teacher();
+        // $teacher->name=['ar'=> 'عبد الحليم مصطفى', 'en'=>'abdulhalim mostafa'];
+        // $teacher->email='abdulmos@gmail.com';
+        // $teacher->birthday='1978-10-08';
+        // $teacher->password= Hash::make('12345678');
+        // $teacher->gender= 'male';
+        // $teacher->college_id=4;
+        // $teacher->level='master';
+        // $teacher->save();
     }
 }

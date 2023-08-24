@@ -36,19 +36,23 @@
                              @csrf
                             <div class="form-row">
                                 <div class="col">
+                                    <label for="title">user id</label>
+                                    <input required readonly type="text" name="user_id" value="{{$user->id}}"  class="form-control">
+                                </div>
+
+                                <div class="col">
+                                    <label for="title">user name</label>
+                                    <input required readonly type="text" name="" value="{{$user->name}}"  class="form-control">
+                                </div>
+
+                                <div class="col">
                                     <label for="title">{{__('general.email')}}</label>
-                                    <input required type="email" name="email" class="form-control">
+                                    <input required readonly type="email" name="email" value="{{$user->email}}" class="form-control">
                                     @error('email')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
-                                <div class="col">
-                                    <label for="title">{{__('general.password')}}</label>
-                                    <input required type="password" name="password" class="form-control">
-                                    @error('password')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
+                                
                             </div>
                             <br>
 
@@ -56,14 +60,14 @@
                             <div class="form-row">
                                 <div class="col">
                                     <label for="title">{{__('general.name_ar')}}</label>
-                                    <input required type="text" name="name" class="form-control">
+                                    <input required type="text" name="name" class="form-control" value="{{ old('name') }}">
                                     @error('name_ar')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="col">
                                     <label for="title">{{__('general.name_en')}}</label>
-                                    <input required type="text" name="name_en" class="form-control">
+                                    <input required type="text" name="name_en" class="form-control" value="{{ old('name_en') }}">
                                     @error('name_en')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror
@@ -71,7 +75,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="inputState">{{__('general.birthday')}}</label> <br>
-                                        <input required class="form-control" type="date"  id="datepicker-action" name="birthday" data-date-format="yyyy-mm-dd">
+                                        <input required class="form-control" type="date"  id="datepicker-action" name="birthday" data-date-format="yyyy-mm-dd" value="{{ old('birthday') }}">
                                     </div>
                                 </div>
                             </div>
@@ -142,7 +146,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="student">Upload Image : </label>
-                                    <input required type="file" accept="image/*" name="photos[]" multiple>
+                                    <input type="file" accept="image/*" name="photos[]" multiple>
                                 </div>
                             </div>
 

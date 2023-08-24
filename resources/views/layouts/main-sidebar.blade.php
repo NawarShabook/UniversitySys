@@ -17,9 +17,28 @@
 
                         </ul>
                     </li>
-                    <!--college -->
+                    
                     <li class="mt-10 mb-10 text-muted pl-4 font-medium menu-title">{{ __('university.managment') }}</li>
                     <!-- menu item Elements-->
+
+                    {{-- users --}}
+                    @role('admin')
+                    <li>
+                        <a href="javascript:void(0);" data-toggle="collapse" data-target="#users">
+                            <div class="pull-left"><i class="ti-palette"></i><span
+                                    class="right-nav-text">{{ __('general.Users') }}</span></div>
+                            <div class="pull-right"><i class="ti-plus"></i></div>
+                            <div class="clearfix"></div>
+                        </a>
+                        <ul id="users" class="collapse" data-parent="#sidebarnav">
+                            {{-- <li><a href="{{ route('college.create') }}">{{ __('university.add_fac') }}</a></li> --}}
+                            <li><a href="{{ route('users.index') }}">{{ __('general.show').' '.__('general.Users') }}</a></li>
+                          
+                        </ul>
+                    </li>
+                    @endrole
+                    <!--college -->
+                   
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse" data-target="#elements">
                             <div class="pull-left"><i class="ti-palette"></i><span
@@ -36,6 +55,7 @@
                             @endforeach --}}
                         </ul>
                     </li>
+                   
                             <!-- classes-->
                 <li>
                     <a href="javascript:void(0);" data-toggle="collapse" data-target="#classes-menu">
@@ -71,7 +91,6 @@
                         <div class="clearfix"></div>
                     </a>
                     <ul id="Teachers-menu" class="collapse" data-parent="#sidebarnav">
-                        <li><a href="{{ route('teacher.create') }}">{{__('general.add').' '.__('teacher.teacher')}}</a></li>
                         <li><a href="{{ route('teacher.index') }}">{{__('general.show').' '.__('teacher.teachers')}}</a></li>
                     </ul>
                 </li>
@@ -83,14 +102,13 @@
                         <a href="javascript:void(0);" data-toggle="collapse" data-target="#students-menu"><div class="pull-left"><i class="fa fa-solid fa-users"></i><span
                             class="right-nav-text">students</span></div><div class="pull-right"><i class="ti-plus"></i></div><div class="clearfix"></div></a>
                         <ul id="students-menu" class="collapse">
-                            <li>
-                                <a href="javascript:void(0);" data-toggle="collapse" data-target="#Student_information">Student_information<div class="pull-right"><i class="ti-plus"></i></div><div class="clearfix"></div></a>
-                                <ul id="Student_information" class="collapse">
-                                    <li> <a href="{{ route('student.create') }}">add_student</a></li>
+                            {{-- <li> --}}
+                                {{-- <a href="javascript:void(0);" data-toggle="collapse" data-target="#Student_information">Student_information<div class="pull-right"><i class="ti-plus"></i></div><div class="clearfix"></div></a> --}}
+                                {{-- <ul id="Student_information" class="collapse"> --}}
                                     <li> <a href="{{ route('student.index') }}">list_students</a></li>
-                                </ul>
-                            </li>
-
+                                {{-- </ul> --}}
+                            {{-- </li> --}}
+                            @role('admin')
                             <li>
                                 <a href="javascript:void(0);" data-toggle="collapse" data-target="#Students_upgrade">Students_Promotions<div class="pull-right"><i class="ti-plus"></i></div><div class="clearfix"></div></a>
                                 <ul id="Students_upgrade" class="collapse">
@@ -106,9 +124,11 @@
                                     <li> <a href="{{ route('Graduateds.index') }}">list_Graduate</a> </li>
                                 </ul>
                             </li>
+                            @endrole
                         </ul>
                     </li>
 
+                    {{-- subjects --}}
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse" data-target="#Subject-menu">
                             <div class="pull-left"><i class="fa fa-building"></i><span
@@ -117,7 +137,6 @@
                             <div class="clearfix"></div>
                         </a>
                         <ul id="Subject-menu" class="collapse" data-parent="#sidebarnav">
-                            <li><a href="{{ route('subject.create') }}">{{__('general.add').' '.__('subject.subject')}}</a></li>
                             <li><a href="{{ route('subject.index') }}">{{__('general.show').' '.__('subject.subjects')}}</a></li>
                         </ul>
                     </li>

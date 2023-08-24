@@ -31,9 +31,11 @@
                     </ul>
                 </div>
             @endif
+            @role('admin')
             <button type="button" class="button x-small" data-toggle="modal" data-target="#exampleModal">
                 {{ __('university.add_classroom')}}
             </button>
+            @endrole
             <br><br>
 
             <div class="table-responsive">
@@ -44,7 +46,9 @@
                             <th>#</th>
                             <th>{{ __('classroom.name') }}</th>
                             <th>{{ __('classroom.name_college') }}</th>
+                            @role('admin')
                             <th>{{ __('classroom.Processes') }}</th>
+                            @endrole
                         </tr>
                     </thead>
                     <tbody>
@@ -62,9 +66,10 @@
                             <tr>
                                 <?php $i++; ?>
                                 <td>{{ $i }}</td>
-                                <td>{{$classroom->name  }}</td>
+                                <td>{{__('classroom.'.$classroom->name)}}</td>
                                 <td>{{ $classroom->colleges->name }}</td>
 
+                                @role('admin')
                                 <td>
                                     <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
                                         data-target="#edit{{ $classroom->id }}"
@@ -73,9 +78,9 @@
                                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                         data-target="#delete{{ $classroom->id }}" title="Delete">
                                         <i class="fa fa-trash"></i></button>
-
                                     
                                 </td>
+                                @endrole
                             </tr>
 
 
@@ -105,22 +110,9 @@
                                                         <label for="name" class="mr-sm-2">Name
                                                             :</label>
                                                         <input id="name" type="text" name="name" class="form-control"
-                                                         value="{{ $classroom->getTranslation('name', 'ar') }}">
+                                                         value="{{ $classroom->name}}">
                                                     </div>
-                                                    <div class="col">
-                                                        <label for="name" class="mr-sm-2">Name_en
-                                                            :</label>
-                                                        <input id="name" type="text" name="name_en" class="form-control "
-                                                         value="{{ $classroom->getTranslation('name', 'en') }}">
-                                                        <input  type="hidden" name="id" value="{{ $classroom->id}}">
-                                                    </div>
-
-                                                </div>
-                                                <div class="col">
-                                                    <label for="Name_en"
-                                                        class="mr-sm-2">{{ __('college.name_college') }}
-                                                        :</label>
-
+                                                    
                                                     <div class="box">
                                                         <select name="college_id" class="fancyselect">
                                                             <option value="{{ $classroom->colleges->id }}">
@@ -214,31 +206,31 @@
                 <form action="{{ route('classroom.store') }}" method="POST">
                     @csrf
                     <div class="row">
-                        <div class="col">
-                            <label for="name" class="mr-sm-2">Name
-                                :</label>
-                            <input id="name" type="text" name="name" class="form-control">
-                        </div>
-                        <div class="col">
-                            <label for="name" class="mr-sm-2">Name_en
-                                :</label>
-                            <input id="name" type="text" name="name_en" class="form-control">
-                            <input  type="hidden" name="college_id" >
-                        </div>
+                        
+                            <div class="col ">
+                               
+                                <select class="fancyselect" id="name" name="name" required>
+                                    <option value="" selected disabled>select classroom name...</option>
+                                    @php
+                                        $classrooms=["1","2","3","4", "5", "6"];
+                                    @endphp
+                                    @foreach ( $classrooms as $classroom)
+                                        <option value="{{$classroom}}">{{__('classroom.'.$classroom)}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
 
+                        
+                            <div class="col">
+                                
+                                <select class="fancyselect" name="college_id" required>
+                                    <option value="" selected disabled>select college name...</option>
+                                    @foreach ($colleges as $college)
+                                        <option value="{{ $college->id }}">{{$college->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                     </div>
-                    <div class="col">
-                        <label for="Name_en"
-                            class="mr-sm-2">{{ __('college.name_college') }}
-                            :</label>
-
-                        <div class="box">
-                            <select class="fancyselect" name="college_id">
-                                @foreach ($colleges as $college)
-                                    <option value="{{ $college->id }}">{{$college->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
 
                     <br><br>
 

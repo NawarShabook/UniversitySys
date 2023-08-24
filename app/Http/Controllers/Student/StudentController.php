@@ -8,6 +8,7 @@ use App\Models\Section;
 use App\Models\Student;
 use App\Models\College;
 use App\Models\Classroom;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -17,6 +18,11 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\App;
 class StudentController extends Controller
 {
+    public function __construct()
+    {
+        // $this->middleware('role:admin')->only(['method1', 'method2']); // Apply to method1 and method2
+        $this->middleware('role:admin')->except(['index']); // Apply to other methods except method1 and method2
+    }
     /**
      * Display a listing of the resource.
      *
@@ -41,7 +47,21 @@ class StudentController extends Controller
      */
     public function create()
     {
+        // $user=User::where('id', $user_id)->first();
+        // return view('pages.student.create',[
+        // 'user'=>$user,
+        // 'colleges'=>College::all(),
+        // 'classrooms'=>Classroom::all(),
+        // 'sections'=>Section::all(),
+
+        // ]);
+    }
+
+    public function create_stu_user($user_id)
+    {
+        $user=User::where('id', $user_id)->first();
         return view('pages.student.create',[
+        'user'=>$user,
         'colleges'=>College::all(),
         'classrooms'=>Classroom::all(),
         'sections'=>Section::all(),
@@ -61,34 +81,33 @@ class StudentController extends Controller
         
         try{
             $request->validate([
-                // 'name' =>['required','max:20',],
+                'name' =>['required','max:20',],
+                'user_id' =>['required',],
                 'email'=>['string','required','email','max:255'],
-                'password' =>['string','required','min:8'],
                 'birthday'=>['required'],
                 'gender'=>['required'],
                 'college_id'=>['required'],
                 'classroom_id'=>['required'],
-                // 'section_id'=>['required'],
+                'section_id'=>['required'],
                 'academic_year'=>['required'],
-
             ]);
             
-            Student::create([
+            $student= Student::create([
                 'name' => ['en'=>$request->name_en , 'ar'=>$request->name],
                 'email'=>$request->email,
-                'password' => Hash::make($request->password),
                 'birthday'=>$request->birthday,
                 'gender'=>$request->gender,
+                'user_id' => $request->user_id,
                 'college_id'=>$request->college_id,
                 'classroom_id'=>$request->classroom_id,
                 'section_id'=>$request->section_id,
                 'academic_year'=>$request->academic_year,
             ]);
-            
             toastr()->success('success');
 
             return redirect()->route('student.index');
         }catch(\Exception $e){
+            toastr()->error($e->getMessage());
             return redirect()->back()->withErrors(['error'=>$e->getMessage()]);
         }
 

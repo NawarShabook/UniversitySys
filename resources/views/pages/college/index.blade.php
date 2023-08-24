@@ -31,9 +31,11 @@
                     </ul>
                 </div>
                 @endif
+            @role('admin')
             <button type="button" class="button x-small" data-toggle="modal" data-target="#exampleModal">
                 {{ __('university.add_fac')}}
             </button>
+            @endrole
             <br><br>
 
             <div class="table-responsive">
@@ -45,7 +47,9 @@
                             <th>{{ __('college.name_college_ar') }}</th>
                             <th>{{ __('college.name_college_en') }}</th>
                             <th>{{__('college.note')}}</th>
+                            @role('admin')
                             <th>{{__('college.Processes')}}</th>
+                            @endrole
                         </tr>
                     </thead>
                     <tbody>
@@ -58,6 +62,8 @@
                                 <td>{{$college->getTranslation('name','ar') }}</td>
                                 <td>{{$college->getTranslation('name','en') }}</td>
                                 <td>{{ $college->note }}</td>
+
+                                @role('admin')
                                 <td>
                                     <button type="button" class="btn btn-info btn-sm" data-toggle="modal"
                                         data-target="#edit{{ $college->id }}"
@@ -65,6 +71,7 @@
                                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                         data-target="#delete{{ $college->id }}" title="Delete"><i class="fa fa-trash"></i></button>
                                 </td>
+                                @endrole
                             </tr>
 
 

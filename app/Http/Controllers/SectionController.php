@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\App;
 
 class SectionController extends Controller
 {
+
+    public function __construct()
+    {
+        // $this->middleware('role:admin')->only(['method1', 'method2']); // Apply to method1 and method2
+        $this->middleware('role:admin')->except(['index']); // Apply to other methods except method1 and method2
+    }
     /**
      * Display a listing of the resource.
      *

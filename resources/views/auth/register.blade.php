@@ -9,7 +9,7 @@
         <!-- Validation Errors -->
         <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
-        <form method="POST" action="{{ route('register') }}">
+        <form method="POST" action="{{ route('users.store') }}">
             @csrf
 
             <!-- Name -->
@@ -43,6 +43,14 @@
                 <x-input id="password_confirmation" class="block mt-1 w-full"
                                 type="password"
                                 name="password_confirmation" required />
+            </div>
+            <div class="mt-4">
+                <select name="role" id="">
+                    <option disabled selected value="">Select Role...</option>
+                    <option value="admin">admin</option>
+                    <option value="teacher">teacher</option>
+                    <option value="student">student</option>
+                </select>
             </div>
 
             <div class="flex items-center justify-end mt-4">

@@ -10,9 +10,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Classroom extends Model
 {
     use HasFactory;
-    use HasTranslations;
-
-    public $translatable = ['name'];
 
     protected $fillable=[
         'name','college_id'

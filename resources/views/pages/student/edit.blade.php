@@ -35,25 +35,7 @@
                             <form action="{{route('student.update', $student->id)}}" method="post" autocomplete="off" enctype="multipart/form-data" >
                             @method('PUT')
                             @csrf
-                            <div class="form-row">
-                                <div class="col">
-                                    <label for="title">{{__('general.email')}}</label>
-                                    <input required type="email" name="email" class="form-control" value="{{$student->email}}">
-                                    @error('email')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="col">
-                                    <label for="title">{{__('general.password')}}</label>
-                                    <input required type="password" name="password" class="form-control" value="{{$student->password}}">
-                                    @error('password')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                            <br>
-
-
+                        
                             <div class="form-row">
                                 <div class="col">
                                     <label for="title">{{__('general.name_ar')}}</label>

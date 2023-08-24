@@ -37,19 +37,22 @@
                             <div class='border p-2 bg-white'>
                                 <div class="row mt-2">
                                     <div class="col">
+                                        <label for="title">user id</label>
+                                        <input required readonly type="text" name="user_id" value="{{$user->id}}"  class="form-control">
+                                    </div>
+                                    <div class="col">
+                                        <label for="title">user name</label>
+                                        <input required readonly type="text" name="" value="{{$user->name}}"  class="form-control">
+                                    </div>
+                                    <div class="col">
                                         <label for="title">{{__('general.email')}}</label>
-                                        <input type="email" name="email" class="form-control" required>
+                                        <input required readonly type="email" name="email" value="{{$user->email}}" class="form-control">
                                         @error('email')
                                         <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                    <div class="col">
-                                        <label for="title">{{__('general.password')}}</label>
-                                        <input type="password" name="password" class="form-control" required>
-                                        @error('password')
-                                        <div class="alert alert-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
+
+                                    
                                 </div>
                                 <br>
 

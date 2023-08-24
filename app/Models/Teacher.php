@@ -16,13 +16,18 @@ class Teacher extends Model
     protected $table = 'teachers';
     public $translatable =['name'];
     protected $fillable=[
-        'name','email','password', 'gender', 'birthday', 'college_id', 'level'
+        'name','email','password', 'gender', 'birthday', 'college_id', 'level', 'user_id'
     ];
     protected $guarded =[];
 
-    public function college(){
+    public function college()
+    {
        return $this->belongsTo(College::class,'college_id');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
 }

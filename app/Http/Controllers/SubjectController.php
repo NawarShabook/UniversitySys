@@ -12,6 +12,12 @@ use Illuminate\Support\Facades\App;
 
 class SubjectController extends Controller
 {
+
+    public function __construct()
+    {
+        // $this->middleware('role:admin')->only(['method1', 'method2']); // Apply to method1 and method2
+        $this->middleware('role:admin')->except(['index','show']); // Apply to other methods except method1 and method2
+    }
     /**
      * Display a listing of the resource.
      *
@@ -21,13 +27,11 @@ class SubjectController extends Controller
     public function index()
     {
 
-        // $colleges= College::with(['sections'])->get();
-        // $list_colleges= College::all();
-
-        // // $sections=Section::all();
-        // return view('pages.subject.index', compact('colleges', 'list_colleges'));
+        
         $subjects = Subject::all();
-        return view('pages.subject.show', compact('subjects', 'subjects'));
+        return view('pages.subject.index', compact('subjects', 'subjects'));
+        
+        
     }
 
 
@@ -87,9 +91,11 @@ class SubjectController extends Controller
      * @param  \App\Models\Subject  $subject
      * @return \Illuminate\Http\Response
      */
-    public function show(Subject $subject)
+    public function show($for_type, $id )
     {
-        //
+        $subjects = Subject::where($for_type, $id)->get();
+        
+        return view('pages.subject.index', ['subjects'=> $subjects, 'for_type'=>$for_type]);
     }
 
     /**
@@ -156,6 +162,9 @@ class SubjectController extends Controller
      */
     public function destroy(Subject $subject)
     {
-        //
+        $subject=Subject::findOrFail($subject->id);
+        $subject->delete();
+        toastr()->success('Delete Subject success');
+        return redirect()->route('subject.index');
     }
 }

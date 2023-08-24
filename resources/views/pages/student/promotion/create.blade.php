@@ -156,13 +156,9 @@
                             <div class="form-group col">
                                 <label for="section_id">{{__('general.section')}}:</label>
                                 <select class="custom-select mr-sm-2" name="section_id">
-                                    @if (isset($student->secion))
-                                    <option class="text-danger font-weight-bold" selected value="{{$student->section}}">{{$student->section->name}}</option>
-                                    
-                                    @else
-                                    <option class="text-danger font-weight-bold" selected value="">____</option>
-
-                                    @endif
+                                @if (isset($student))   
+                                    <option class="text-danger font-weight-bold" selected value="{{$student->section->id}}">{{$student->section->name}}</option>
+                                @endif
                                 </select>
                                 
                             </div>

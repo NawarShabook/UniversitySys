@@ -24,7 +24,8 @@ class Student extends Model
     'college_id',
     'classroom_id',
     'section_id',
-    'academic_year',];
+    'academic_year',
+    'user_id'];
     protected $guarded =[];
 
     public function college(){
@@ -44,6 +45,10 @@ class Student extends Model
         return $this->belongsToMany(Subject::class);
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
     //  public function images()
     //  {
     //      return $this->morphMany(Image::class, 'imageable');

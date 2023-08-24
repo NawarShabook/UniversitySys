@@ -36,25 +36,9 @@
                                 @csrf
                             <div class='border p-2 bg-white'>
                                 <div class="row mt-2">
-                                    <div class="col">
-                                        <label for="title">{{__('general.email')}}</label>
-                                        <input value="{{$teacher->email}}" type="email" name="email" class="form-control" required>
-                                        @error('email')
-                                        <div class="alert alert-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                    <div class="col">
-                                        <label for="title">{{__('general.password')}}</label>
-                                        <input value="{{$teacher->password}}" type="password" name="password" class="form-control" required>
-                                        @error('password')
-                                        <div class="alert alert-danger">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <br>
-
-
-                                <div class="form-row">
+                                    
+                                    
+                        
                                     <div class="col">
                                         <label for="title">{{__('general.name')}}</label>
                                         <input value="{{$teacher->name}}" type="text" name="name" class="form-control" required>

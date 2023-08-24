@@ -45,7 +45,33 @@
                 </div>
             </div>
             <!-- widgets -->
+            
             <div class="row">
+                <div class="col-xl-3 col-lg-6 col-md-6 mb-30">
+                    <div class="card card-statistics h-100">
+                        <div class="card-body">
+                            <div class="clearfix">
+                                <div class="float-left">
+                                    <span class="text-warning">
+                                        <i class="fa fa-thin fa-users fa-4x"></i>
+                                    </span>
+                                </div>
+                                <div class="float-right text-right">
+                                    <p class="card-text text-dark">{{ __('dashboard.countUsr') }}</p>
+                                    <h4>{{ \App\Models\User::count() }}</h4>
+                                </div>
+                            </div>
+                            
+                            <p class="text-muted pt-3 mb-0 mt-2 border-top">
+                                <i class="fa fa-bookmark-o mr-1" aria-hidden="true"></i>
+                                @role('admin')
+                                <a class="btn btn-primary" href="{{ url('users') }}">Show</a>
+                                @endrole
+                            </p>
+                            
+                        </div>
+                    </div>
+                </div>
                 <div class="col-xl-3 col-lg-6 col-md-6 mb-30">
                     <div class="card card-statistics h-100">
                         <div class="card-body">
@@ -109,7 +135,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-lg-6 col-md-6 mb-30">
+                {{-- <div class="col-xl-3 col-lg-6 col-md-6 mb-30">
                     <div class="card card-statistics h-100">
                         <div class="card-body">
                             <div class="clearfix">
@@ -129,7 +155,7 @@
                             </p>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <div class="col-xl-3 col-lg-6 col-md-6 mb-30">
                     <div class="card card-statistics h-100">
                         <div class="card-body">
@@ -172,7 +198,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-lg-6 col-md-6 mb-30">
+                {{-- <div class="col-xl-3 col-lg-6 col-md-6 mb-30">
                     <div class="card card-statistics h-100">
                         <div class="card-body">
                             <div class="clearfix">
@@ -191,7 +217,7 @@
                             </p>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
             <!-- Orders Status widgets-->
             <div class="row">

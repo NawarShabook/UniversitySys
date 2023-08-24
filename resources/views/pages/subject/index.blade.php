@@ -1,381 +1,149 @@
 @extends('layouts.master')
 @section('css')
-@toastr_css
+    @toastr_css
 @section('title')
-{{ __('section.section') }}
+    Show Subjects
 @stop
 @endsection
 @section('page-header')
-<!-- breadcrumb -->
+    <!-- breadcrumb -->
 @section('PageTitle')
-{{ __('section.section') }}
-@stop
+Show Subjects
+<br>
+@if (isset($for_type) && count($subjects)>0)
+    @if ($for_type=="college_id")
+        <a class="text-warning" href="{{route('get_subjects_for',["for_type"=>"college_id" , "id"=>$subjects->first()->college->id])}}">{{$subjects->first()->college->name}}</a>
+                                
+    @elseif($for_type=="classroom_id")
+        <a class="text-warning" href="{{route('get_subjects_for',["for_type"=>"college_id" , "id"=>$subjects->first()->college->id])}}">{{$subjects->first()->college->name}}</a>
+        <a class="text-primary" href="{{route('get_subjects_for',["for_type"=>"classroom_id" , "id"=>$subjects->first()->classroom->id])}}"> _{{$subjects->first()->classroom->name}}</a>
+                                
+    @elseif($for_type=="section_id")
+        <a class="text-warning" href="{{route('get_subjects_for',["for_type"=>"college_id" , "id"=>$subjects->first()->college->id])}}">{{$subjects->first()->college->name}}</a>
+        <a class="text-primary" href="{{route('get_subjects_for',["for_type"=>"classroom_id" , "id"=>$subjects->first()->classroom->id])}}"> _{{$subjects->first()->classroom->name}}</a>
+        <a class="text-success" href="{{route('get_subjects_for',["for_type"=>"section_id" , "id"=>$subjects->first()->section->id])}}">_{{$subjects->first()->section->name}}</a>
+                                
+    @endif
+                                 
+@endif
+
 <!-- breadcrumb -->
 @endsection
 @section('content')
-<!-- row -->
-<div class="row">
-<div class="col-md-12 mb-30">
-<div class="card card-statistics h-100">
-<div class="card-body">
-<a class="button x-small" href="#" data-toggle="modal" data-target="#exampleModal">
-{{ trans('section.add') }}</a>
-</div>
+    <!-- row -->
+    <div class="row">
+        <div class="col-md-12 mb-30">
+        <div class="col">
+            
+        </div>
+            <div class="card card-statistics h-100">
+                <div class="card-body">
+                    
+                    <div class="col-xl-12 mb-30">
+                        <div class="card card-statistics h-100">
+                            <div class="card-body">
+                                @role('admin')
+                                <a href="{{route('subject.create')}}" class="btn btn-success btn-sm" role="button"
+                                   aria-pressed="true">Add subject</a><br><br>
+                                @endrole
+                                <div class="table-responsive">
+                                    <table id="datatable" class="table  table-hover table-sm table-bordered p-0"
+                                           data-page-length="50"
+                                           style="text-align: center">
+                                        <thead>
+                                            
+                                        <tr>
+                                            <th>#</th>
+                                            <th>{{ __('subject.subject') }}</th>
+                                            <th>{{ __('general.college') }}</th>
+                                            <th>{{ __('general.level') }}</th>
+                                            <th>{{ __('general.section') }}</th>
+                                            <th>{{ __('general.teacher') }}</th>
+                                            <th>{{ __('college.note') }}</th>
+                                            @role('admin')
+                                            <th>{{ __('general.actions') }}</th>
+                                            @endrole
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php $i = 1; ?>
 
-@if ($errors->any())
-<div class="alert alert-danger alert-dismissible fade show" role="alert">
-<ul>
-@foreach ($errors->all() as $error)
-<li>{{ $error }}</li>
-@endforeach
-</ul>
-<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-<span aria-hidden="true">&times;</span>
-</button>
-</div>
-@endif
+                                      
+                                        @foreach ($subjects as  $subject)
 
-<div class="card card-statistics h-100">
-<div class="card-body">
-<div class="accordion gray plus-icon round">
+                                            <tr>
+                                            
+                                            <td>{{ $i++ }}</td>
+                                            <th>{{$subject->name}}</th>
+                                            <td>{{$subject->college->name}}</td>
+                                            <td>{{$subject->classroom->name}}</td>
+                                            <td>{{$subject->section->name}}</td>
+                                            <td>
+                                                @if ($subject->teacher)
+                                                {{$subject->teacher->name}}
+                                                @else
+                                                ______
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($subject->note)
+                                                {{$subject->note}}
+                                                @else
+                                                ______
+                                                @endif
+                                            
+                                            @role('admin')
+                                            </td>
 
-@foreach ($colleges as $college)
+                                            
+                                                <td>
+                                                    <a href="{{route('subject.edit',$subject->id)}}" class="btn btn-info btn-sm" role="button" aria-pressed="true" title="Edit"><i class="fa fa-edit"></i></a>
+                                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete_student{{ $subject->id }}" title="Delete"><i class="fa fa-trash"></i></button>
+                                                </td>
+                                            @endrole
+                                            </tr>
 
-<div class="acd-group">
-<a href="#" class="acd-heading">{{ $college->name }}</a>
-<div class="acd-des">
-
-<div class="row">
-<div class="col-xl-12 mb-30">
-<div class="card card-statistics h-100">
-<div class="card-body">
-<div class="d-block d-md-flex justify-content-between">
-<div class="d-block">
-</div>
-</div>
-<div class="table-responsive mt-15">
-<table class="table center-aligned-table mb-0">
-<thead>
-<tr class="text-dark">
-<th>#</th>
-<th>{{ __('section.name_section_ar') }}</th>
-<th>{{ __('section.name_section_en') }}</th>
-<th>{{ __('classroom.classt') }}</th>
-<th>{{ __('section.status') }}</th>
-<th>{{ __('section.processes') }}</th>
-</tr>
-</thead>
-<tbody>
-<?php $i = 0; ?>
-@foreach ($college->sections as $list_Sections)
-<tr>
-@php
-    $i++;
-    
-@endphp
-
-<td>{{ $i }}</td>
-<td>{{ $list_Sections->getTranslation('name','ar') }}</td>
-<td>{{ $list_Sections->getTranslation('name','en') }}</td>
-<td>{{ $list_Sections->classrooms->name }}</td>
-<td>
-@if ($list_Sections->status === 1)
-<label
-class="badge badge-success">active</label>
-@else
-<label
-class="badge badge-danger">disactive</label>
-@endif
-</td>
-
-<td>
-<a href="#"
-class="btn btn-outline-info btn-sm"
-data-toggle="modal"
-data-target="#edit{{ $list_Sections->id }}">Edit</a>
-<a href="#"
-class="btn btn-outline-danger btn-sm"
-data-toggle="modal"
-data-target="#delete{{ $list_Sections->id }}">Delete</a>
-</td>
-</tr>
-
-
-<!--تعديل قسم جديد -->
-<div class="modal fade"
-id="edit{{ $list_Sections->id }}"
-tabindex="-1" role="dialog"
-aria-labelledby="exampleModalLabel"
-aria-hidden="true">
-<div class="modal-dialog" role="document">
-<div class="modal-content">
-<div class="modal-header">
-<h5 class="modal-title"
-style="font-family: 'Cairo', sans-serif;"
-id="exampleModalLabel">edit
-</h5>
-<button type="button" class="close"
-data-dismiss="modal"
-aria-label="Close">
-<span
-aria-hidden="true">&times;</span>
-</button>
-</div>
-<div class="modal-body">
-
-<form action="{{ route('sections.update',$list_Sections->id) }}" method="POST">
-{{ method_field('patch') }}
-    @csrf
-<div class="row">
-<div class="col">
-<input type="text"
-name="name"
-class="form-control"
-value="{{ $list_Sections->getTranslation('name', 'ar') }}">
-</div>
-
-<div class="col">
-<input type="text"
-name="name_en"
-class="form-control"
-value="{{ $list_Sections->getTranslation('name', 'en') }}">
-<input id="id"
-type="hidden"
-name="id"
-class="form-control"
-value="{{ $list_Sections->id }}">
-</div>
-
-</div>
-<br>
-
-
-<div class="col">
-<label for="inputName"
-class="control-label">College</label>
-<select name="college_id"
-class="custom-select"
-onclick="console.log($(this).val())">
-<!--placeholder-->
-<option
-value="{{ $college->id }}">
-{{ $college->name }}
-</option>
-@foreach ($list_colleges as $list_college)
-<option
-value="{{ $list_college->id }}">
-{{ $list_college->name }}
-</option>
-@endforeach
-</select>
-</div>
-<br>
-
-<div class="col">
-<label for="inputName" class="control-label">Classroom</label>
-<select name="classroom_id" class="custom-select">
-<option value="{{ $list_Sections->classrooms->id }}">
-{{ $list_Sections->classrooms->name }}
-</option>
-</select>
-</div>
-<br>
-
-<div class="col">
-<div class="form-check">
-
-@if ($list_Sections->status === 1)
-<input type="checkbox" checked class="form-check-input" name="status" id="exampleCheck1">
-@else
-<input type="checkbox" class="form-check-input" name="status" id="exampleCheck1">
-@endif
-<label
-class="form-check-label"
-for="exampleCheck1">Status</label><br>
-
-{{-- <div class="col">
-<label for="inputName" class="control-label">{{ trans('Sections_trans.Name_Teacher') }}</label>
-<select multiple name="teacher_id[]" class="form-control" id="exampleFormControlSelect2">
-@foreach($list_Sections->teachers as $teacher)
-<option selected value="{{$teacher['id']}}">{{$teacher['Name']}}</option>
-@endforeach
-
-@foreach($teachers as $teacher)
-<option value="{{$teacher->id}}">{{$teacher->Name}}</option>
-@endforeach
-</select>
-</div> --}}
-</div>
-</div>
-
-
-</div>
-<div class="modal-footer">
-<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-<button type="submit" class="btn btn-danger">Submit</button>
-</div>
-</form>
-</div>
-</div>
-</div>
-
-
-<!-- delete_modal_Grade -->
-<div class="modal fade" id="delete{{ $list_Sections->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-aria-hidden="true">
-<div class="modal-dialog" role="document">
-<div class="modal-content">
-<div class="modal-header">
-<h5 style="font-family: 'Cairo', sans-serif;" class="modal-title" id="exampleModalLabel">
-Delete
-</h5>
-<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-<span aria-hidden="true">&times;</span>
-</button>
-</div>
-<div class="modal-body">
-<form action="{{ route('sections.destroy',$list_Sections->id) }}" method="post">
-@method('Delete')
-@csrf
-delete
-<input id="id" type="hidden" name="id" class="form-control" value="{{ $list_Sections->id }}">
-<div class="modal-footer">
-<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-<button type="submit" class="btn btn-danger">Submit</button>
-</div>
-</form>
-</div>
-</div>
-</div>
-</div>
-
-
-
-
-@endforeach
-</tbody>
-</table>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-@endforeach
-</div>
-</div>
-</div>
-
-<!--اضافة قسم جديد -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-aria-labelledby="exampleModalLabel"
-aria-hidden="true">
-<div class="modal-dialog" role="document">
-<div class="modal-content">
-<div class="modal-header">
-<h5 class="modal-title" style="font-family: 'Cairo', sans-serif;"
-id="exampleModalLabel">
-{{ __('section.add') }}</h5>
-<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-<span aria-hidden="true">&times;</span>
-</button>
-</div>
-<div class="modal-body">
-
-<form action="{{ route('sections.store') }}" method="POST">
-    @csrf
-<div class="row">
-<div class="col">
-<input type="text" name="name" class="form-control" placeholder="اسم القسم بالعربي"
->
-</div>
-
-<div class="col">
-<input type="text" name="name_en" class="form-control"
->
-</div>
-
-</div>
-<br>
-
-
-<div class="col">
-<label for="inputName"
-class="control-label">College</label>
-<select name="college_id" class="custom-select"
-onchange="console.log($(this).val())">
-<!--placeholder-->
-<option value="" selected
-disabled>Select College
-</option>
-@foreach ($list_colleges as $college)
-<option value="{{ $college->id }}"> {{ $college->name }}
-</option>
-@endforeach
-</select>
-</div>
-<br>
-
-<div class="col">
-<label for="inputName"
-class="control-label">Classroom</label>
-<select name="classroom_id" class="custom-select">
-
-</select>
-</div><br>
-
-{{-- <div class="col">
-<label for="inputName" class="control-label">{{ trans('Sections_trans.Name_Teacher') }}</label>
-<select multiple name="teacher_id[]" class="form-control" id="exampleFormControlSelect2">
-@foreach($teachers as $teacher)
-<option value="{{$teacher->id}}">{{$teacher->Name}}</option>
-@endforeach
-</select>
-</div> --}}
-
-
-</div>
-<div class="modal-footer">
-<button type="button" class="btn btn-secondary"
-data-dismiss="modal">close</button>
-<button type="submit"
-class="btn btn-danger">Submit</button>
-</div>
-</form>
-</div>
-</div>
-</div>
-
-</div>
-</div>
-</div>
-<!-- row closed -->
+                                            <div class="modal fade" id="delete_student{{$subject->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <form action="{{route('subject.destroy',$subject->id)}}" method="post">
+                                                        {{method_field('delete')}}
+                                                        {{csrf_field()}}
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 style="font-family: 'Cairo', sans-serif;" class="modal-title" id="exampleModalLabel">Delete</h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>Worings</p>
+                                                            <input type="hidden" name="id"  value="{{$subject->id}}">
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary"
+                                                                        data-dismiss="modal">Close</button>
+                                                                <button type="submit"
+                                                                        class="btn btn-danger">Submit</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row closed -->
 @endsection
 @section('js')
-
-
-<script>
-$(document).ready(function () {
-$('select[name="college_id"]').on('change', function () {
-var college_id = $(this).val();
-if (college_id) {
-$.ajax({
-url: "{{ URL::to('classes') }}/" + college_id,
-type: "GET",
-dataType: "json",
-success: function (data) {
-$('select[name="classroom_id"]').empty();
-$.each(data, function (key, value) {
-$('select[name="classroom_id"]').append('<option value="' + key + '">' + value + '</option>');
-});
-},
-});
-} else {
-console.log('AJAX load did not work');
-}
-});
-});
-
-</script>
-
+    @toastr_js
+    @toastr_render
 @endsection

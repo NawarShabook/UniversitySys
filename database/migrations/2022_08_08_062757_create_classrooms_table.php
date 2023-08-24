@@ -18,6 +18,7 @@ return new class extends Migration
             // $table->foreignId('college_id')->constrained('id')->on('colleges')->cascadeOnDelete();
             $table->string('name');
             $table->foreignId('college_id')->references('id')->on('colleges')->onDelete('cascade');
+            $table->unique(['name', 'college_id']);
             $table->timestamps();
         });
     }

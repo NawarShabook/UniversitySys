@@ -18,8 +18,9 @@
 <div class="col-md-12 mb-30">
 <div class="card card-statistics h-100">
 <div class="card-body">
+@role('admin')   
 <a class="button x-small" href="#" data-toggle="modal" data-target="#exampleModal">
-{{ trans('section.add') }}</a>
+{{ trans('section.add') }}</a>@endrole
 </div>
 
 @if ($errors->any())
@@ -89,6 +90,7 @@ class="badge badge-danger">disactive</label>
 </td>
 
 <td>
+@role('admin')
 <a href="#"
 class="btn btn-outline-info btn-sm"
 data-toggle="modal"
@@ -97,6 +99,8 @@ data-target="#edit{{ $list_Sections->id }}">Edit</a>
 class="btn btn-outline-danger btn-sm"
 data-toggle="modal"
 data-target="#delete{{ $list_Sections->id }}">Delete</a>
+@endrole
+<a class="btn btn-outline-info btn-sm" href="{{route('get_subjects_for',["for_type"=>"section_id" , "id"=>$list_Sections->id])}}">Show Subjects</a>
 </td>
 </tr>
 
