@@ -42,12 +42,21 @@ class Student extends Model
      }
    
      public function subjects(){
-        return $this->belongsToMany(Subject::class);
+        return $this->belongsToMany(Subject::class)->withPivot('mark');;
     }
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function dorm_student()
+    {
+        return $this->hasOne(DormStudent::class);
+    }
+    public function dorm_student_req()
+    {
+        return $this->hasOne(DormStudentReq::class);
     }
     //  public function images()
     //  {

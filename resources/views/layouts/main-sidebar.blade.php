@@ -25,7 +25,7 @@
                     @role('admin')
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse" data-target="#users">
-                            <div class="pull-left"><i class="ti-palette"></i><span
+                            <div class="pull-left"><i class="fa fa-user-circle-o"></i><span
                                     class="right-nav-text">{{ __('general.Users') }}</span></div>
                             <div class="pull-right"><i class="ti-plus"></i></div>
                             <div class="clearfix"></div>
@@ -37,11 +37,31 @@
                         </ul>
                     </li>
                     @endrole
+                    {{-- dorm --}}
+                    @role('teacher')
+                    @else
+                    <li>
+                        <a href="javascript:void(0);" data-toggle="collapse" data-target="#dorm">
+                            <div class="pull-left"><i class="fa fa-building"></i><span
+                                    class="right-nav-text">{{'السكن الجامعي'}}</span></div>
+                            <div class="pull-right"><i class="ti-plus"></i></div>
+                            <div class="clearfix"></div>
+                        </a>
+                        <ul id="dorm" class="collapse" data-parent="#sidebarnav">
+                            <li><a href="{{ route('dorm.index') }}">إظهار الطلاب</a></li>
+                            
+                            <li><a href="{{ route('dorm_req.index') }}"><span>إظهار طلبات التسجيل</span>
+                                <span class='badge badge-light'>{{\App\Models\DormStudentReq::count()}}</span></a></li>
+                           
+
+                        </ul>
+                    </li>
+                    @endrole
                     <!--college -->
                    
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse" data-target="#elements">
-                            <div class="pull-left"><i class="ti-palette"></i><span
+                            <div class="pull-left"><i class="fa fa-university"></i><span
                                     class="right-nav-text">{{ __('university.colleges') }}</span></div>
                             <div class="pull-right"><i class="ti-plus"></i></div>
                             <div class="clearfix"></div>
@@ -59,7 +79,7 @@
                             <!-- classes-->
                 <li>
                     <a href="javascript:void(0);" data-toggle="collapse" data-target="#classes-menu">
-                        <div class="pull-left"><i class="fa fa-building"></i><span
+                        <div class="pull-left"><i class="fa fa-reorder"></i><span
                                 class="right-nav-text">{{ __('classroom.class') }}</span></div>
                         <div class="pull-right"><i class="ti-plus"></i></div>
                         <div class="clearfix"></div>
@@ -71,7 +91,7 @@
                 {{-- sections --}}
                 <li>
                     <a href="javascript:void(0);" data-toggle="collapse" data-target="#sections-menu">
-                        <div class="pull-left"><i class="fa fa-building"></i><span
+                        <div class="pull-left"><i class="fa fa-clone"></i><span
                                 class="right-nav-text">{{ __('section.section') }}</span></div>
                         <div class="pull-right"><i class="ti-plus"></i></div>
                         <div class="clearfix"></div>
@@ -85,7 +105,7 @@
                 <!-- Teacher-->
                 <li>
                     <a href="javascript:void(0);" data-toggle="collapse" data-target="#Teachers-menu">
-                        <div class="pull-left"><i class="fa fa-building"></i><span
+                        <div class="pull-left"><i class="fa fa-users"></i><span
                                 class="right-nav-text">{{__('teacher.teachers')}}</span></div>
                         <div class="pull-right"><i class="ti-plus"></i></div>
                         <div class="clearfix"></div>
@@ -131,15 +151,21 @@
                     {{-- subjects --}}
                     <li>
                         <a href="javascript:void(0);" data-toggle="collapse" data-target="#Subject-menu">
-                            <div class="pull-left"><i class="fa fa-building"></i><span
+                            <div class="pull-left"><i class="fa fa-book"></i><span
                                     class="right-nav-text">{{__('subject.subjects')}}</span></div>
                             <div class="pull-right"><i class="ti-plus"></i></div>
                             <div class="clearfix"></div>
                         </a>
                         <ul id="Subject-menu" class="collapse" data-parent="#sidebarnav">
                             <li><a href="{{ route('subject.index') }}">{{__('general.show').' '.__('subject.subjects')}}</a></li>
+                            @role('student')
+                            <li><a href="{{ route('show_student_subjects', auth()->user()->student->id) }}">{{__('general.show').' '.__('subject.subject')}}</a></li>
+                            @endrole
                         </ul>
                     </li>
+
+                    
+
 
                 </ul>
             </div>

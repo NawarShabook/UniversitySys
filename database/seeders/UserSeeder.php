@@ -29,13 +29,19 @@ class UserSeeder extends Seeder
 
       User::create([
             'name' =>'Samer',
-            'email' =>'s@s.s',
+            'email' =>'s@a.a',
             'password' =>Hash::make('1')
         ])->assignRole('teacher');
 
       User::create([
             'name' =>'ahmad',
             'email' =>'ah@a.a',
+            'password' =>Hash::make('1')
+        ])->assignRole('student');
+
+      User::create([
+            'name' =>'khaled',
+            'email' =>'k@a.a',
             'password' =>Hash::make('1')
         ])->assignRole('student');
     }

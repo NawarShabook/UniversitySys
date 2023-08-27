@@ -2,7 +2,7 @@
 <title>{{ config('app.name', 'title') }}</title>
 
 <!-- Favicon -->
-<link rel="shortcut icon" href="{{ URL::asset('assets/images/university.jpg') }}" type="image/x-icon" />
+<link rel="shortcut icon" href="{{ URL::asset('assets/images/university.png') }}" type="image/x-icon" />
 
 <!-- Font -->
 <link rel="stylesheet"

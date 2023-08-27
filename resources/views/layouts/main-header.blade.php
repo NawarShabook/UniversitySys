@@ -3,7 +3,7 @@
         <nav class="admin-header navbar navbar-default col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <!-- logo -->
             <div class="text-left navbar-brand-wrapper">
-                <a class="navbar-brand brand-logo" href="index.html"><img src="{{ URL::asset('assets/images/university.jpg') }}" alt=""> </a>
+                <a class="navbar-brand brand-logo" href="index.html"><img height="70" width="35" src="{{ URL::asset('assets/images/university.png') }}" alt=""> </a>
                 <a class="navbar-brand brand-logo-mini" href="index.html"><img src="{{URL::asset('assets/images/logo-icon-dark.png')}}"
                         alt=""></a>
             </div>

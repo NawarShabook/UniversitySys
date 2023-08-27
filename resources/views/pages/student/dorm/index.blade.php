@@ -1,14 +1,14 @@
 @extends('layouts.master')
 @section('css')
+    @toastr_css
 @section('title')
-@toastr_css
-Teacher
+    طلاب السكن الجامعي
 @stop
 @endsection
 @section('page-header')
     <!-- breadcrumb -->
 @section('PageTitle')
-    Teacher
+طلاب السكن الجامعي
 @stop
 <!-- breadcrumb -->
 @endsection
@@ -16,66 +16,68 @@ Teacher
     <!-- row -->
     <div class="row">
         <div class="col-md-12 mb-30">
-        <div class="col">
-            {{-- <form method="GET" action="{{ route('teacher.index') }}">
-                <div class="form-row align-items-center">
-                    <div class="col">
-                        <input type="search" name="search" class="form-control mb-2" id="inlineFormInput"
-                            placeholder="البحث هنا Email">
-                    </div>
-                    <div class="col">
-                        <button type="submit" class="btn btn-primary mb-2">Search</button>
-                    </div>
-                </div>
-            </form> --}}
-        </div>
             <div class="card card-statistics h-100">
                 <div class="card-body">
                     <div class="col-xl-12 mb-30">
                         <div class="card card-statistics h-100">
                             <div class="card-body">
-                                @role('admin')
-                                <a href="{{route('users.index')}}" class="btn btn-success btn-sm" role="button"
-                                   aria-pressed="true">{{__('general.add').' '.__('teacher.teacher')}}</a><br><br>
-                                @endrole
-                                   <div class="table-responsive">
+                                <a href="{{route('student.index')}}" class="btn btn-success btn-sm" role="button"
+                                   aria-pressed="true">إضافة طالب إلى السكن</a><br><br>
+                                <div class="table-responsive">
                                     <table id="datatable" class="table  table-hover table-sm table-bordered p-0"
                                            data-page-length="50"
                                            style="text-align: center">
                                         <thead>
+                                            
                                         <tr>
                                             <th>#</th>
-                                            <th>{{__('teacher.edu_level')}}</th>
-                                            <th>{{__('general.name')}}</th>
-                                            <th>{{__('general.email')}}</th>
-                                            <th>{{__('general.college')}}</th>
-                                            <th>{{__('general.gender')}}</th>
-                                            @role('admin')<th>{{__('general.actions')}}</th>@endrole
+                                            <th>{{ __('student.name_student_ar') }}</th>
+                                            <th>{{ __('student.name_student_en') }}</th>
+                                            <th>{{ __('general.email') }}</th>
+                                            <th>{{ __('general.college') }}</th>
+                                            <th>{{ __('general.level') }}</th>
+                                            <th>{{ __('general.section') }}</th>
+                                            <th>{{ __('general.gender') }}</th>
+                                            <th>{{ __('dorm.unit_name') }}</th>
+                                            <th>{{ __('dorm.room_number') }}</th>
+                                            <th>{{ __('dorm.city') }}</th>
+                                            @role('admin') <th>{{ __('general.actions') }}</th> @endrole
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <?php $i = 1; ?>
-                                        @foreach($teachers as $teacher)
-                                            <tr>
-                                            
-                                            <td>{{ $i++ }}</td>
-                                            <td>{{__('teacher.'.$teacher->level)}}</td>
-                                            <td>{{$teacher->name}}</td>
-                                            <td>{{$teacher->email}}</td>
-                                            <td>{{$teacher->college->name}}</td>
-                                            <td>{{__('general.'.$teacher->gender)}}</td>
+                                        <?php $i = 0; ?>
 
+                                      
+                                        @foreach ($dorm_students as $student)
+
+                                            <tr>
+                                            @php
+                                                $i++;
+                                            @endphp
+                                            
+                                            <td>{{ $i }}</td>
+                                            <th>{{$student->student->getTranslation('name','ar')}}</th>
+                                            <th>{{$student->student->getTranslation('name','en')}}</th>
+                                            <td>{{$student->student->email}}</td>
+                                            <td>{{$student->student->college->name}}</td>
+                                            <td>{{__('classroom.'.$student->student->classroom->name)}}</td>
+                                            <td>{{$student->student->section->name}}</td>
+                                            <td>{{__('general.'.$student->student->gender)}}</td>
+                                            <td>{{$student->unit_name}}</td>
+                                            <td>{{$student->room_number}}</td>
+                                            <td>{{$student->city}}</td>
                                             @role('admin')
                                                 <td>
-                                                    <a href="{{route('teacher.edit',$teacher->id)}}" class="btn btn-info btn-sm" role="button" aria-pressed="true"><i class="fa fa-edit"></i></a>
-                                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete_doctor{{ $teacher->id }}" title="Delete"><i class="fa fa-trash"></i></button>
+                                                    
+                                                    <a href="{{route('dorm.show',$student->id)}}" class="btn btn-success btn-sm" role="button" aria-pressed="true" title="Show"><i class="fa fa-regular fa-eye-slash"></i></a>
+                                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete_student{{ $student->id }}" title="Delete"><i class="fa fa-trash"></i></button>
                                                 </td>
                                             @endrole
                                             </tr>
 
-                                            <div class="modal fade" id="delete_doctor{{$teacher->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal fade" id="delete_student{{$student->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
-                                                    <form action="{{route('teacher.destroy',$teacher->id)}}" method="post">
+                                                    <form action="{{route('dorm.destroy',$student->id)}}" method="post">
                                                         {{method_field('delete')}}
                                                         {{csrf_field()}}
                                                     <div class="modal-content">
@@ -86,8 +88,8 @@ Teacher
                                                             </button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <label for="Name" class="mr-sm-2">Name: {{$teacher->name}}</label>
-                                                            <input type="hidden" name="id"  value="{{$teacher->id}}">
+                                                            <p>Worings</p>
+                                                            <input type="hidden" name="id"  value="{{$student->id}}">
                                                         </div>
                                                         <div class="modal-footer">
                                                             <div class="modal-footer">

@@ -6,29 +6,32 @@ use App\Models\Image;
 use App\Models\Teacher;
 use App\Models\Section;
 use App\Models\Student;
+use App\Models\DormStudent;
+use App\Models\DormStudentReq;
 use App\Models\College;
 use App\Models\Classroom;
+use App\Models\Subject;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\App;
 class StudentController extends Controller
 {
     public function __construct()
     {
         // $this->middleware('role:admin')->only(['method1', 'method2']); // Apply to method1 and method2
-        $this->middleware('role:admin')->except(['index']); // Apply to other methods except method1 and method2
+        $this->middleware('role:admin')->except(['index','show']); // Apply to other methods except method1 and method2
     }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         
         $students=Student::all();   
@@ -36,9 +39,20 @@ class StudentController extends Controller
         return view('pages.student.index',[
         'students' => $students,
         'colleges'=>College::all(),
-   
+        'from_method' => "كل الطلاب"
         ]);
     }
+
+    public function get_trashed_stu()
+    {
+        $trashedStudents = Student::onlyTrashed()->get();
+
+        return view('pages.student.trash', ['students' => $trashedStudents]);
+
+       
+    }
+
+    
 
     /**
      * Show the form for creating a new resource.
@@ -128,7 +142,7 @@ class StudentController extends Controller
 
         
     }
-
+ 
     /**
      * Display the specified resource.
      *
@@ -137,9 +151,29 @@ class StudentController extends Controller
      */
     public function show($id)
     {
-        $student=Student::findOrfail($id);
-
-        return view('pages.student.show',['student'=>$student]);
+        $user=Auth::user();
+        
+        $user_role=$user->roles->first()->name;
+        
+        if($user_role=='admin')
+        {
+            
+            $student=Student::findOrfail($id);
+            return view('pages.student.show',['student'=>$student]);
+        }
+        elseif($user->student)
+        {
+            if($user->student->id == $id)
+            {
+                $student=Student::findOrfail($id);
+                return view('pages.student.show',['student'=>$student]);
+            }
+        }
+        else
+        {
+            toastr()->error("you have not permission");
+            return redirect()->back()->withErrors("you have not permission");
+        }
     }
 
     /**
@@ -211,10 +245,43 @@ class StudentController extends Controller
      */
     public function destroy(Request $request,Student $student)
     {
-        $student=Student::find($request->id)->delete();
-        return redirect()->back();
+        try {
+            $student=Student::find($request->id)->delete();
+            
+            toastr()->success('Student deleted successfully');
+            return redirect()->route('student.index')->with('success', 'Student deleted permanently');
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('student.index')->with('error', 'Student not found in trash');
+        }
+
     }
-    
+
+    public function restore_student($id)
+    {
+        try {
+            $restoredStudent = Student::onlyTrashed()->findOrFail($id);
+            $restoredStudent->restore();
+            toastr()->success('Student restored successfully');
+            return redirect()->route('student.index')->with('success', 'Student restored successfully');
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('get_trashed_stu')->with('error', 'Student not found in trash');
+        }
+    }
+
+    public function force_delete($id)
+    {
+        try {
+            $deletedStudent = Student::withTrashed()->findOrFail($id);
+            $deletedStudent->forceDelete();
+            toastr()->success('Student deleted successfully');
+            return redirect()->route('get_trashed_stu')->with('success', 'Student deleted permanently');
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('get_trashed_stu')->with('error', 'Student not found in trash');
+        }
+    }
+
+
+
     public function Get_classrooms($id){
 
         $list_classes = Classroom::where("college_id", $id)->pluck("name", "id");

@@ -60,7 +60,8 @@ Show Subjects
                                             <th>{{ __('general.section') }}</th>
                                             <th>{{ __('general.teacher') }}</th>
                                             <th>{{ __('college.note') }}</th>
-                                            @role('admin')
+                                            @role('student')
+                                            @else
                                             <th>{{ __('general.actions') }}</th>
                                             @endrole
                                         </tr>
@@ -76,7 +77,7 @@ Show Subjects
                                             <td>{{ $i++ }}</td>
                                             <th>{{$subject->name}}</th>
                                             <td>{{$subject->college->name}}</td>
-                                            <td>{{$subject->classroom->name}}</td>
+                                            <td>{{__('classroom.'.$subject->classroom->name)}}</td>
                                             <td>{{$subject->section->name}}</td>
                                             <td>
                                                 @if ($subject->teacher)
@@ -92,15 +93,18 @@ Show Subjects
                                                 ______
                                                 @endif
                                             
-                                            @role('admin')
+                                           
                                             </td>
-
-                                            
-                                                <td>
+                                            <td>
+                                                @role('admin')
                                                     <a href="{{route('subject.edit',$subject->id)}}" class="btn btn-info btn-sm" role="button" aria-pressed="true" title="Edit"><i class="fa fa-edit"></i></a>
                                                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete_student{{ $subject->id }}" title="Delete"><i class="fa fa-trash"></i></button>
+                                                @endrole
+                                                @role('student')
+                                                @else
+                                                    <a class="btn btn-outline-secondary btn-sm" href="{{route('subject.show', $subject->id)}}">Show students</a>
+                                                @endrole
                                                 </td>
-                                            @endrole
                                             </tr>
 
                                             <div class="modal fade" id="delete_student{{$subject->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

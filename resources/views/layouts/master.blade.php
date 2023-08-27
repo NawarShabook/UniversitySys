@@ -1,6 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+<style>
+    #pre-loader {
+        display:none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
+.university-image {
+    position: absolute;
+    top: 100px; /* Adjust this value to your preference */
+    z-index: 1;
+}
+
+.loader-image {
+    position: relative;
+    z-index: 2;
+}
+</style>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,7 +43,8 @@
  preloader -->
 
         <div id="pre-loader">
-            <img src="{{ URL::asset('assets/images/pre-loader/loader-01.svg')}}" alt="">
+            <img style="top:200px" rel="shortcut icon" width='200' height="200" src="{{ URL::asset('assets/images/university.png') }}" class="university-image" />
+            <img src="{{ URL::asset('assets/images/pre-loader/loader-01.svg')}}" alt="" class="loader-image">
         </div>
 
         <!--=================================

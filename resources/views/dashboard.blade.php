@@ -198,6 +198,54 @@
                         </div>
                     </div>
                 </div>
+                @role('admin')
+                <div class="col-xl-3 col-lg-6 col-md-6 mb-30">
+                    <div class="card card-statistics h-100">
+                        <div class="card-body">
+                            <div class="clearfix">
+                                <div class="float-left">
+                                    <span class="text-success">
+                                        <i class="fa fa-thin fa-users fa-4x"></i>
+                                    </span>
+                                </div>
+                                <div class="float-right text-right">
+                                    <p class="card-text text-dark">طلبات التسجيل على السكن</p>
+                                    <h4>{{ \App\Models\DormStudentReq::count() }}</h4>
+                                </div>
+                            </div>
+                            <p class="text-muted pt-3 mb-0 mt-2 border-top">
+                                <i class="fa fa-calendar mr-1" aria-hidden="true"></i>
+                                <a class="btn btn-primary" href="{{ route('dorm_req.index') }}">Show</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                @endrole
+
+                @role('student')
+                <div class="col-xl-3 col-lg-6 col-md-6 mb-30">
+                    <div class="card card-statistics h-100">
+                        <div class="card-body">
+                            <div class="clearfix">
+                                <div class="float-left">
+                                    <span class="text-success">
+                                        <i class="fa fa-thin fa-user fa-4x"></i>
+                                    </span>
+                                </div>
+                                <div class="float-right text-right">
+                                    <p class="card-text text-dark">إظهار صفحتي كطالب</p>
+                                    
+                                </div>
+                            </div>
+                            <p class="text-muted pt-3 mb-0 mt-2 border-top">
+                                <i class="fa fa-calendar mr-1" aria-hidden="true"></i>
+                                <a class="btn btn-primary" href="{{ route('student.show', auth()->user()->student->id) }}">Show</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                @endrole
+                
                 {{-- <div class="col-xl-3 col-lg-6 col-md-6 mb-30">
                     <div class="card card-statistics h-100">
                         <div class="card-body">
@@ -220,7 +268,7 @@
                 </div> --}}
             </div>
             <!-- Orders Status widgets-->
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-xl-4 mb-30">
                     <div class="card card-statistics h-100">
                         <!-- action group -->
@@ -662,7 +710,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
             <div class="calendar-main mb-30">
                 <div class="row">

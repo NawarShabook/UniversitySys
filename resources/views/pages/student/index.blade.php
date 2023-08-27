@@ -16,21 +16,23 @@ Show Student
     <!-- row -->
     <div class="row">
         <div class="col-md-12 mb-30">
-        <div class="col">
-            
-        </div>
             <div class="card card-statistics h-100">
                 <div class="card-body">
                     <div class="col-xl-12 mb-30">
                         <div class="card card-statistics h-100">
                             <div class="card-body">
-                               
+                                @role('admin')
+                                <a href="{{route('users.index')}}" class="btn btn-success btn-sm" role="button"
+                                   aria-pressed="true">إضافة طالب</a>
+
+                                   <a href="{{route('get_trashed_stu')}}" class="btn btn-success btn-sm" role="button"
+                                   aria-pressed="true">عرض الطلاب المحذوفين</a>
+                                @endrole
                                 <div class="table-responsive">
                                     <table id="datatable" class="table  table-hover table-sm table-bordered p-0"
                                            data-page-length="50"
                                            style="text-align: center">
                                         <thead>
-                                            
                                         <tr>
                                             <th>#</th>
                                             <th>{{ __('student.name_student_ar') }}</th>
@@ -40,7 +42,7 @@ Show Student
                                             <th>{{ __('general.level') }}</th>
                                             <th>{{ __('general.section') }}</th>
                                             <th>{{ __('general.gender') }}</th>
-                                            @role('admin') <th>{{ __('general.actions') }}</th> @endrole
+                                            <th>{{ __('general.actions') }}</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -64,14 +66,18 @@ Show Student
                                                 {{$student->section->name}}
                                             </td>
                                             <td>{{__('general.'.$student->gender)}}</td>
-                                            @role('admin')
+                                            
                                                 <td>
-                                                    
-                                                    <a href="{{route('student.edit',$student->id)}}" class="btn btn-info btn-sm" role="button" aria-pressed="true" title="Edit"><i class="fa fa-edit"></i></a>
-                                                    <a href="{{route('student.show',$student->id)}}" class="btn btn-success btn-sm" role="button" aria-pressed="true" title="Show"><i class="fa fa-regular fa-eye-slash"></i></a>
-                                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete_student{{ $student->id }}" title="Delete"><i class="fa fa-trash"></i></button>
+                                                    @if (auth()->user()->id == $student->user->id)
+                                                        <a href="{{route('student.show',$student->id)}}" class="btn btn-success btn-sm" role="button" aria-pressed="true" title="Show"><i class="fa fa-regular fa-eye-slash"></i></a>
+                                                    @endif
+                                                    @role('admin')
+                                                        <a href="{{route('student.show',$student->id)}}" class="btn btn-success btn-sm" role="button" aria-pressed="true" title="Show"><i class="fa fa-regular fa-eye-slash"></i></a>
+                                                        <a href="{{route('student.edit',$student->id)}}" class="btn btn-info btn-sm" role="button" aria-pressed="true" title="Edit"><i class="fa fa-edit"></i></a>
+                                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete_student{{ $student->id }}" title="Delete"><i class="fa fa-trash"></i></button>
+                                                    @endrole
                                                 </td>
-                                            @endrole
+                                            
                                             </tr>
 
                                             <div class="modal fade" id="delete_student{{$student->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

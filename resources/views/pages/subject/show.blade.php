@@ -1,14 +1,17 @@
 @extends('layouts.master')
 @section('css')
 @section('title')
-@toastr_css
-Teacher
+
+طلاب المادة
 @stop
 @endsection
 @section('page-header')
     <!-- breadcrumb -->
 @section('PageTitle')
-    Teacher
+    طلاب مادة {{$subject->name}} _ {{$subject->college->name}}
+    <br>
+    {{__('classroom.'.$subject->classroom->name)}} _ {{$subject->section->name}}
+    
 @stop
 <!-- breadcrumb -->
 @endsection
@@ -17,27 +20,13 @@ Teacher
     <div class="row">
         <div class="col-md-12 mb-30">
         <div class="col">
-            {{-- <form method="GET" action="{{ route('teacher.index') }}">
-                <div class="form-row align-items-center">
-                    <div class="col">
-                        <input type="search" name="search" class="form-control mb-2" id="inlineFormInput"
-                            placeholder="البحث هنا Email">
-                    </div>
-                    <div class="col">
-                        <button type="submit" class="btn btn-primary mb-2">Search</button>
-                    </div>
-                </div>
-            </form> --}}
+        
         </div>
             <div class="card card-statistics h-100">
                 <div class="card-body">
                     <div class="col-xl-12 mb-30">
                         <div class="card card-statistics h-100">
                             <div class="card-body">
-                                @role('admin')
-                                <a href="{{route('users.index')}}" class="btn btn-success btn-sm" role="button"
-                                   aria-pressed="true">{{__('general.add').' '.__('teacher.teacher')}}</a><br><br>
-                                @endrole
                                    <div class="table-responsive">
                                     <table id="datatable" class="table  table-hover table-sm table-bordered p-0"
                                            data-page-length="50"
@@ -45,56 +34,65 @@ Teacher
                                         <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>{{__('teacher.edu_level')}}</th>
-                                            <th>{{__('general.name')}}</th>
+                                            <th>{{__('student.name')}}</th>
                                             <th>{{__('general.email')}}</th>
-                                            <th>{{__('general.college')}}</th>
+                                            <th>{{__('general.level')}}</th>
                                             <th>{{__('general.gender')}}</th>
+                                            <th>{{"الدرجة"}}</th>
+                                            <th>{{"النتيجة"}}</th>
                                             @role('admin')<th>{{__('general.actions')}}</th>@endrole
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <?php $i = 1; ?>
-                                        @foreach($teachers as $teacher)
+                                        @foreach($subject->students as $student)
                                             <tr>
                                             
                                             <td>{{ $i++ }}</td>
-                                            <td>{{__('teacher.'.$teacher->level)}}</td>
-                                            <td>{{$teacher->name}}</td>
-                                            <td>{{$teacher->email}}</td>
-                                            <td>{{$teacher->college->name}}</td>
-                                            <td>{{__('general.'.$teacher->gender)}}</td>
-
-                                            @role('admin')
+                                            <td>{{$student->name}}</td>
+                                            <td>{{$student->email}}</td>
+                                            <td>{{__('classroom.'.$student->classroom->name)}}</td>
+                                            <td>{{__('general.'.$student->gender)}}</td>
+                                            @if ($student->pivot->mark<60)
+                                            <td class="bg-danger text-white">{{$student->pivot->mark}}</td>
+                                            <td class="bg-danger text-white">راسب</td>
+                                            @else
+                                            <td class="bg-success text-white">{{$student->pivot->mark}}</td>
+                                            <td class="bg-success text-white">ناجح</td>
+                                            @endif
+                                            
+                                            
                                                 <td>
-                                                    <a href="{{route('teacher.edit',$teacher->id)}}" class="btn btn-info btn-sm" role="button" aria-pressed="true"><i class="fa fa-edit"></i></a>
-                                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete_doctor{{ $teacher->id }}" title="Delete"><i class="fa fa-trash"></i></button>
+                                                    {{-- <a href="{{route('subject.edit',$teacher->id)}}" class="btn btn-info btn-sm" role="button" aria-pressed="true"><i class="fa fa-edit"></i></a> --}}
+                                                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#edit_mark{{ $student->id }}" title="edit"><i class="fa fa-edit"></i></button>
                                                 </td>
-                                            @endrole
                                             </tr>
 
-                                            <div class="modal fade" id="delete_doctor{{$teacher->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal fade" id="edit_mark{{$student->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
-                                                    <form action="{{route('teacher.destroy',$teacher->id)}}" method="post">
-                                                        {{method_field('delete')}}
+                                                    
+                                                    <form action="{{route('edit_mark')}}" method="post">
+                                                        {{-- {{method_field('PUT')}} --}}
                                                         {{csrf_field()}}
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 style="font-family: 'Cairo', sans-serif;" class="modal-title" id="exampleModalLabel">Delete</h5>
+                                                            <h5 style="font-family: 'Cairo', sans-serif;" class="modal-title" id="exampleModalLabel">Edit</h5>
                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <label for="Name" class="mr-sm-2">Name: {{$teacher->name}}</label>
-                                                            <input type="hidden" name="id"  value="{{$teacher->id}}">
+                                                            <label for="Name" class="mr-sm-2">Name: {{$student->name}}</label>
+                                                            <input type="number" class="form-control" name="mark" value="{{$student->pivot->mark}}" min='0' max='100' required>
+                                                            <input type="hidden" name="student_id"  value="{{$student->id}}">
+                                                            <input type="hidden" name="subject_id"  value="{{$subject->id}}">
                                                         </div>
                                                         <div class="modal-footer">
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-secondary"
                                                                         data-dismiss="modal">Close</button>
                                                                 <button type="submit"
-                                                                        class="btn btn-danger">Submit</button>
+                                                                        class="btn btn-success">Submit</button>
                                                             </div>
                                                         </div>
                                                     </div>

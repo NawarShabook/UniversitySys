@@ -41,64 +41,50 @@ Show Student
                                         <tbody>
                                         <tr>
                                             <th scope="row">{{ __('student.name_student_ar') }}</th>
-                                            <td>{{$student->getTranslation('name','ar')}}</td>
+                                            <td>{{$student->student->getTranslation('name','ar')}}</td>
                                             <th>{{ __('student.name_student_en') }}</th>
-                                            <td>{{$student->getTranslation('name','en')}}</td>
-                                            <th></th>
-                                            <td></td>
-                                        </tr>
-                                        <tr>
+                                            <td>{{$student->student->getTranslation('name','en')}}</td>
                                             <th scope="row">{{__('general.email')}}</th>
-                                            <td>{{$student->email}}</td>
-                                            <th scope="row">{{__('general.gender')}}</th>
-                                            <td>{{__('general.'.$student->gender)}}</td>
+                                            <td>{{$student->student->email}}</td>
                                         </tr>
-
                                         <tr>
                                             <th scope="row">{{__('general.college')}}</th>
-                                            <td>{{$student->college->name}}</td>
+                                            <td>{{$student->student->college->name}}</td>
                                             <th scope="row">{{__('general.level')}}</th>
-                                            <td>{{ $student->classroom->name }}</td>
+                                            <td>{{ $student->student->classroom->name }}</td>
                                             <th scope="row">{{__('general.section')}}</th>
-                                            <td>
-                                                @if ($student->section)
-                                                    {{$student->section->name}}
-                                                @else
-                                                ____
-                                                @endif
-                                               
-                                            </td>
+                                            <td>{{$student->student->section->name}}</td>
+                                            
                                         </tr>
 
                                         <tr>
                                             <th scope="row">{{__('general.birthday')}}</th>
-                                            <td>{{ $student->birthday}}</td>
-                                            
+                                            <td>{{ $student->student->birthday}}</td>
+                                            <th scope="row">السنة الدراسية</th>
+                                            <td>{{ $student->student->academic_year}}</td>
                                             {{-- <th scope="row">Images</th>
-                                            @foreach ($student->images as $image)
+                                            @foreach ($student->student->images as $image)
                                             <td>{{ $image->filename }}</td>
                                             <img src="{{asset('attachments/students/kmail/'.$image->filename) }}" alt="" width="100" height="100" >
                                             @endforeach --}}
-                                            <th scope="row">السنة الدراسية</th>
-                                            <td>{{ $student->academic_year}}</td>
+                                            <th scope="row">{{__('general.gender')}}</th>
+                                            <td>{{__('general.'.$student->student->gender)}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            
+                                            <th>{{"المدينة"}}</th>
+                                            <td>{{$student->city}}</td>
+
                                         </tr>
                                         </tbody>
                                     </table>
-                                    @if (!($student->dorm_student || $student->dorm_student_req))
                                     <button type="button" class="btn btn-md btn-success " data-toggle="modal" data-target="#exampleModal">
-                                        @role('admin')
-                                            {{'إضافة الطالب إلى السكن الجامعي'}}
-                                        @endrole
-
-                                        @role('student') 
-                                           
-                                            {{'إرسال طلب تسجيل على السكن'}}
-                                        @endrole
+                                        {{'الرد على الطلب'}}
                                     </button>
-                                    @endif
                                 </div>
 
-                                <div class="tab-pane fade" id="profile-02" role="tabpanel"
+                                {{-- <div class="tab-pane fade" id="profile-02" role="tabpanel"
                                      aria-labelledby="profile-02-tab">
                                     <div class="card card-statistics">
                                         <div class="card-body">
@@ -110,7 +96,7 @@ Show Student
                                                             for="academic_year">Attachments
                                                             : <span class="text-danger">*</span></label>
                                                         <input type="file" accept="image/*" name="photos[]" multiple required>
-                                                        <input type="hidden" name="name" value="{{$student->name}}">
+                                                        <input type="hidden" name="name" value="{{$student->student->name}}">
                                                         <input type="hidden" name="student_id" value="{{$student->id}}">
                                                     </div>
                                                 </div>
@@ -133,37 +119,17 @@ Show Student
                                             </thead>
                                             <tbody>
                                             
-                                            {{-- @foreach($student->images as $attachment)
-                                                <tr style='text-align:center;vertical-align:middle'>
-                                                    <td>{{$loop->iteration}}</td>
-                                                    <td>{{$attachment->filename}}</td>
-                                                    <td>{{$attachment->created_at->diffForHumans()}}</td>
-                                                    <td colspan="2">
-                                                        <a class="btn btn-outline-info btn-sm"
-                                                           href="{{url('Download_attachment')}}/{{ $attachment->imageable->name }}/{{$attachment->filename}}"
-                                                           role="button" title="Download" ><i class="fa fa-download"></i>&nbsp; Download</a>
-
-                                                        <button type="button" class="btn btn-outline-danger btn-sm"
-                                                                data-toggle="modal"
-                                                                data-target="#Delete_img{{ $attachment->id }}"
-                                                                title="Delete">Delete
-                                                        </button>
-
-                                                    </td>
-                                                </tr>
-                                                @include('pages.student.Delete_img')
-                                            @endforeach --}}
+                                           
                                             </tbody>
                                         </table>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
 
                 </div>
             </div>
-
 
             <!-- row closed -->
 
@@ -173,36 +139,39 @@ Show Student
         <div class="modal-content">
             <div class="modal-header">
                 <h5 style="font-family: 'Cairo', sans-serif;" class="modal-title" id="exampleModalLabel">
-                    @role('admin')
-                        @if (!$student->dorm_student)
-                        {{'إضافة الطالب إلى السكن الجامعي'}}
-                        @endif
-                    @endrole
-
-                    @role('student') 
-                        
-                        {{'إرسال طلب تسجيل على السكن'}}
-                        
-                    @endrole
+                    {{'الرد على الطلب'}}
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <!-- add_form -->
-                @role('admin') <form action="{{ route('dorm.store') }}" method="POST"> @endrole
-                @role('student') <form action="{{ route('dorm_req.store') }}" method="POST"> @endrole
+                <!-- edit_form -->
+                <form action="{{ route('dorm_req.update',$student->id) }}" method="POST">
                     @csrf
+                    @method('PUT')
                     <div class="row">
                         <div class="col">
                             <label for="city" class="mr-sm-2">المدينة
                                 :</label>
-                            <input id="city" type="text" name="city" class="form-control" required>
-                            <input type="text" hidden name="student_id" value="{{$student->id}}">
+                            <input id="city" type="text" name="city" class="form-control" value="{{$student->city}}" required>
+                        </div>
+                        <input  type="text" name="student_id" hidden value="{{$student->student->id}}" required>
+                        <div class="col box mt-4">
+                            <select class="fancyselect" name="status" id="" required>
+                                {{-- 0 value mean not response yet, 1 value mean agree, 2 value mean reject  --}}
+                                <?php $status=["1"=>"الموافقة", "2"=>"الرفض"] ?>
+                                @if ($student->status==0)
+                                    <option disabled selected value="">Select Status...</option>
+                                @else
+                                    <option disabled selected value="{{$student->status}}">{{$status[$student->status]}}</option>
+                                @endif
+                                
+                                <option value="1">الموافقة</option>
+                                <option value="2">الرفض</option>
+                            </select>
                         </div>
                     </div>
-                    @role('admin')
                     <div class="row">
                         <div class="col">
                             <label for="unit" class="mr-sm-2">اسم الوحدة السكنية
@@ -210,13 +179,19 @@ Show Student
                             <input id="unit" type="text" name="unit_name" class="form-control">
                         </div>
                     
-                    <div class="col">
-                        <label for="exampleFormControlTextarea1">رقم الغرفة
+                        <div class="col">
+                            <label for="exampleFormControlTextarea1">رقم الغرفة
+                                :</label>
+                            <input class="form-control" name="room_number" type="number" min="0">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1">Note
                             :</label>
-                        <input class="form-control" name="room_number" type="number" min="0" value='0'>
-                    </div></div>
+                        <textarea class="form-control" name="note" id="exampleFormControlTextarea1"
+                            rows="3" >{{$student->note}}</textarea>
+                    </div>
                     <br><br>
-                    @endrole
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary"

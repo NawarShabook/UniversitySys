@@ -11,6 +11,8 @@ use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\Student\StudentController;
 use App\Http\Controllers\Student\GraduatedController;
 use App\Http\Controllers\Student\PromotionController;
+use App\Http\Controllers\Student\DormStudentController;
+use App\Http\Controllers\Student\DormStudentReqController;
 use App\Http\Controllers\SubjectController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -64,9 +66,16 @@ Route::group(
         // Students
 
     Route::resource('/student',StudentController::class)->middleware(['auth']);
+    // Route::get('/student/get_sub_stu/{subject_id}',[SubjectController::class,'get_stu_sub'])->middleware(['auth','role:admin'])->name('get_stu_sub');
     Route::get('/student/create/{user_id}',[StudentController::class,'create_stu_user'])->middleware(['auth','role:admin'])->name('student_create');
     Route::get('/student/Get_classrooms/{id}',[StudentController::class,'Get_classrooms']);
+
+    Route::get('get_trashed_stu/',[StudentController::class,'get_trashed_stu'])->name('get_trashed_stu');
+    Route::get('/student/restore/{id}',[StudentController::class,'restore_student'])->name('restore_stu');
+    Route::delete('/student/force_delete/{id}',[StudentController::class,'force_delete'])->name('force_delete_stu');
+    
     Route::post('Upload_attachment', [StudentController::class ,'Upload_attachment'])->name('Upload_attachment');
+
     Route::post('Delete_attachment', [StudentController::class ,'Delete_attachment'])->name('Delete_attachment');
     Route::get('Download_attachment/{studentname}/{filename}',[StudentController::class ,'Download_attachment'])->name('Download_attachment');
     
@@ -86,7 +95,12 @@ Route::group(
 
     //subject
     Route::resource('/subject',SubjectController::class)->middleware(['auth']);
-    Route::get('/subject/{for_type}/{id}', [SubjectController::class,'show'])->name('get_subjects_for');
+    Route::get('/subject/{for_type}/{id}', [SubjectController::class,'get_subjects_for'])->middleware(['auth'])->name('get_subjects_for');
+    Route::post('/edit_mark', [SubjectController::class,'edit_mark'])->middleware(['auth'])->name('edit_mark');
+    Route::get('/show_student_subjects/{id}', [SubjectController::class,'show_student_subjects'])->middleware(['auth'])->name('show_student_subjects');
+    //dorm DormStudentController
+    Route::resource('/dorm',DormStudentController::class)->middleware(['auth']);
+    Route::resource('/dorm_req',DormStudentReqController::class)->middleware(['auth']);
 });
 
 require __DIR__.'/auth.php';

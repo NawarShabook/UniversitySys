@@ -83,7 +83,7 @@
                                 </div>
                                 <div class="form-group col">
                                     <label for="inputCity">{{__('general.section')}}</label>
-                                    <select  class="custom-select my-1 mr-sm-2" name="section_id">
+                                    <select  class="custom-select my-1 mr-sm-2" name="section_id" required>
                                         <option value="" selected disabled>اختر  قسم الكلية</option>
                                         
                                     </select>
@@ -94,7 +94,7 @@
                                 
                                 <div class="form-group col">
                                     <label for="inputState">{{__('teacher.teacher')}}</label>
-                                    <select class="custom-select my-1 mr-md-2" name="teacher_id" required>
+                                    <select class="custom-select my-1 mr-md-2" name="teacher_id">
                                         <option value="" selected disabled>{{__('general.choose').' '.__('teacher.teacher')}}</option>
                                     
                                     </select> 

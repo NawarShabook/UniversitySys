@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('student_subject', function (Blueprint $table) {
+        Schema::create('dorm_student_reqs', function (Blueprint $table) {
             $table->id();
-            $table->integer('mark')->default(0);
+            $table->string('city');
+            $table->integer('status')->default(0); //0 value mean not response yest, 1 value mean agree, 2 value mean reject 
+            $table->string('note')->nullable();
             $table->foreignId('student_id')->references('id')->on('students')->onDelete('cascade');
-            $table->foreignId('subject_id')->references('id')->on('subjects')->onDelete('cascade');
-            $table->unique(['student_id', 'subject_id']);
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('student_subject');
+        Schema::dropIfExists('dorm_student_reqs');
     }
 };

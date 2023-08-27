@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignId('college_id')->references('id')->on('colleges')->onDelete('cascade');
             $table->foreignId('classroom_id')->references('id')->on('classrooms')->onDelete('cascade');
             $table->foreignId('section_id')->references('id')->on('sections')->onDelete('cascade');
-            $table->foreignId('teacher_id')->nullable()->references('id')->on('teachers')->onDelete('cascade');
+            $table->foreignId('teacher_id')->references('id')->on('teachers')->onDelete('cascade');
 
             $table->unique(['name','college_id', 'classroom_id', 'section_id']);
             $table->timestamps();
